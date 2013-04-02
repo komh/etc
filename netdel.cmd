@@ -8,8 +8,14 @@ address cmd '@echo off'
 
 address cmd 'set 4os2test_env=%@eval[ 2 + 2 ]'
 
+if value('4os2test_env',, 'OS2ENVIRONMENT') = 4 then
+    address cmd 'setdos /X-12345678'
+
 do while DeleteACL( sResource )
 end
+
+if value('4os2test_env',, 'OS2ENVIRONMENT') = 4 then
+    address cmd 'setdos /X0'
 
 exit
 
@@ -25,8 +31,6 @@ DeleteACL: procedure
 
     iLineCount = 0
 
-    if value('4os2test_env',, 'OS2ENVIRONMENT') = 4 then
-        address cmd 'setdos /X-12345678'
 
     do while queued() > 0
         parse pull sLine
@@ -49,9 +53,6 @@ DeleteACL: procedure
         else
             iLineCount = iLineCount + 1
     end
-
-    if value('4os2test_env',, 'OS2ENVIRONMENT') = 4 then
-        address cmd 'setdos /X0'
 
     call rxqueue 'Delete', rqNew
     call rxqueue 'Set', rqOld
