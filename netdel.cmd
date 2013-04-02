@@ -9,7 +9,7 @@ address cmd '@echo off'
 address cmd 'set 4os2test_env=%@eval[ 2 + 2 ]'
 
 if value('4os2test_env',, 'OS2ENVIRONMENT') = 4 then
-    address cmd 'setdos /X-12345678'
+    address cmd 'setdos /X-1234678'
 
 do while DeleteACL( sResource )
 end
