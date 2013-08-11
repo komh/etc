@@ -1,5 +1,7 @@
 extproc sh
 
+export COMSPEC=/bin/sh
+
 # convert backslashes of PATH to slashes
 IFS="\\"
 TEMP_PATH=
