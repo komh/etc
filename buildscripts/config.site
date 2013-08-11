@@ -1,4 +1,4 @@
-COMSPEC=/bin/sh
+export COMSPEC=/bin/sh
 
 # convert backslashes of PATH to slashes
 OLD_IFS="$IFS"
@@ -11,11 +11,11 @@ for dir in $PATH; do
         TEMP_PATH="$TEMP_PATH/$dir"
     fi
 done
-PATH="$TEMP_PATH"
+export PATH="$TEMP_PATH"
 unset TEMP_PATH
 IFS="$OLD_IFS"
 unset OLD_IFS
 
-ac_executable_extensions=".exe"
+export ac_executable_extensions=".exe"
 
-MKDIR_P="mkdir -p"
+export MKDIR_P="mkdir -p"
