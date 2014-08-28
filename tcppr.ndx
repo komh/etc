@@ -4,7 +4,7 @@ DESCRIPTION: TCP/IP v4.21 Programming Reference
 (accept_and_recv, view tcppr ~)
 (addsockettolist, view tcppr ~)
 (bind, view tcppr ~)
-(connect, view tcppr ~)
+(connect, view tcppr ~())
 (getpeername, view tcppr ~)
 (getsockname, view tcppr ~)
 (getsockopt, view tcppr ~)
