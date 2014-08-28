@@ -3,6 +3,7 @@ extproc sh
 export COMSPEC=/bin/sh
 
 # convert backslashes of PATH to slashes
+OLD_IFS="$IFS"
 IFS="\\"
 TEMP_PATH=
 for dir in $PATH; do
@@ -15,6 +16,8 @@ done
 PATH="$TEMP_PATH"
 export PATH
 unset TEMP_PATH
+IFS="$OLD_IFS"
+unset OLD_IFS
 
 export ac_executable_extensions=".exe"
 
