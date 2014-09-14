@@ -19,7 +19,7 @@ do
     do
         sGitIgnore = substr(sCurDir, 1, iPos - 1) || '.git\.gitignore'
         if stream(sGitIgnore, 'c', 'query exists') = '' then
-            sGitIngore = 'g:\myetc\.gitignore'
+            sGitIgnore = 'g:\myetc\.gitignore'
     end
 end
 
