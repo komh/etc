@@ -6,7 +6,7 @@ parse arg argall
 'set COMSPEC=/bin/sh'
 'rem make SHELL=/bin/sh' argall
 'set MAKESHELL=/bin/sh'
-'make' argall '2>&1 | tee build.log'
+'make' argall '2>&1 | tee gmake.log'
 ec = rc
 'endlocal'
 exit ec
