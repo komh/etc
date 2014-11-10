@@ -111,6 +111,7 @@ do
     'find . -name autom4te.cache | xargs rm -rf';
     'rm -f .gitattributes .gitignore';
     'rm -rf .git';
+    'rm -rf patches';
 
     'cd ..';
     'zip -rpS ..\' || sPackageSrcZip sPackage;
