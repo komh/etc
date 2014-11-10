@@ -10,7 +10,8 @@ do
     exit 1
 end
 
-if sGitIgnore = '' then
+if ( sGitIgnore = '' ),
+   & ( stream('.gitignore', 'c', 'query exists') = '' ) then
 do
     sCurDir = directory()
 
@@ -23,7 +24,8 @@ do
     end
 end
 
-'copy' sGitIgnore .
+if sGitIgnore \= '' then
+    'copy' sGitIgnore .
 
 'git init .'
 'git add .'
