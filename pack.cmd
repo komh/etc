@@ -15,6 +15,11 @@ call setlocal;
  */
 fRebuild = 1;
 
+/* set fMakeClean to 1 if using make for clean,
+ * or set to 0 if doing clean manually
+ */
+fMakeClean = 1;
+
 /* set fDist to 1 if dist-zip is supported, otherwise set to 0 */
 fDist = 1;
 
@@ -50,8 +55,19 @@ do
         /* add -s to GCCOPT to remove symbols from release binaries */
         'set GCCOPT=%GCCOPT% -s';
 
-        /* clean generated files */
-        'gmake clean';
+        if fMakeClean then
+        do
+            /* clean generated files */
+            'gmake clean';
+        end
+        else
+        do
+            /* clean objects and executables manually */
+            'find . -name "*.o" -o -name "*.lo"',
+                '-o -name "*.a" -o -name "*.dll" -o -name "*.la"',
+                '-o -name "*.exe"',
+                '| xargs rm -f';
+        end
     end
 end
 else
