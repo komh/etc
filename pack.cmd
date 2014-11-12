@@ -20,6 +20,9 @@ fRebuild = 1;
  */
 fMakeClean = 1;
 
+/* set fInstall to 1 if binaries should be installed, otherwise set to 0 */
+fInstall = 1;
+
 /* set fDist to 1 if dist-zip is supported, otherwise set to 0 */
 fDist = 1;
 
@@ -75,8 +78,16 @@ end
 else
     'cd' sDir;
 
-/* install binaries */
-'gmake install DESTDIR=/' || sPackage;
+if fInstall then
+do
+    /* install binaries */
+    'gmake install DESTDIR=/' || sPackage;
+end
+else
+do
+    /* create a dir for packaging */
+    'md \' || sPackage;
+end
 
 /* create source distribution */
 if fDist then
