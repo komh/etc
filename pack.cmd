@@ -63,10 +63,12 @@ do
         else
         do
             /* clean objects and executables manually */
-            'find . -name "*.o" -o -name "*.lo"',
-                '-o -name "*.a" -o -name "*.dll" -o -name "*.la"',
-                '-o -name "*.exe"',
-                '| xargs rm -f';
+            call findRm '"*.o"',
+                        '"*.lo"',
+                        '"*.a"',
+                        '"*.dll"',
+                        '"*.la"',
+                        '"*.exe"';
         end
     end
 end
@@ -104,14 +106,15 @@ do
     'gmake distclean';
 
     /* remove additional files not covered by distclean */
-    'find . -name med.lru | xargs rm -f';
-    'find . -name gmake.log | xargs rm -f';
-    'find . -name "*~" | xargs rm -f';
-    'find . -name "*.bak" | xargs rm -f';
-    'find . -name autom4te.cache | xargs rm -rf';
-    'rm -f .gitattributes .gitignore';
-    'rm -rf .git';
-    'rm -rf patches';
+    call findRm 'med.lru',
+                'gmake.log',
+                '"*~"',
+                '"*.bak"',
+                'autom4te.cache',
+                '.gitattributes',
+                '.gitignore',
+                '.git',
+                'patches';
 
     'cd ..';
     'zip -rpS ..\' || sPackageSrcZip sPackage;
@@ -149,6 +152,28 @@ if fRebuild | \fDist then
 call endlocal;
 
 exit 0;
+
+findRm: procedure
+    /* a file list is separated by a space */
+    parse arg sFileList;
+
+    /* max characters for arguments */
+    nMaxChars = 16384;
+
+    sCmd = 'find .';
+
+    do while length( sFileList ) > 0
+        parse value sFileList with sFile sFileList;
+
+        sCmd = sCmd '-name' sFile;
+
+        if length( sFileList ) > 0 then
+            sCmd = sCmd '-o';
+    end
+
+    sCmd '| xargs -s' nMaxChars 'rm -rf';
+
+    return;
 
 getOutput: procedure
     parse arg sCmd;
