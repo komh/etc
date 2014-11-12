@@ -10,6 +10,8 @@ end
 
 call setlocal;
 
+/***** start of configuration block *****/
+
 /* set fRebuild to 1 if a package should be rebuild after clean,
  * otherwise set to 0
  */
@@ -25,6 +27,8 @@ fInstall = 1;
 
 /* set fDist to 1 if dist-zip is supported, otherwise set to 0 */
 fDist = 1;
+
+/***** end of configuration block *****/
 
 /* get a version and a base name of package */
 'cd' sDir;
