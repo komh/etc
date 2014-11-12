@@ -157,6 +157,7 @@ if fRebuild | \fDist then
 /* copy additional files to a dir for packaging */
 'copy donation.txt \' || sPackage;
 'move os2.diff \' || sPackage;
+'if exist readme.txt copy readme.txt \' || sPackage;
 
 /* create a package */
 'zip -rpSm' sPackage || sRev || '.zip /' || sPackage;
