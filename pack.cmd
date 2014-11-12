@@ -104,6 +104,7 @@ do
     'if exist autogen.cmd zip' sPackageZip 'autogen.cmd';
     'if exist bootstrap.cmd zip' sPackageZip 'bootstrap.cmd';
     'if exist configure.cmd zip' sPackageZip 'configure.cmd';
+    'if exist gmake.cmd zip' sPackageZip 'gmake.cmd';
 
     /* move a source zip to a parent directory */
     'move' sPackageZip '..\' || sPackageSrcZip;
