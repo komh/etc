@@ -28,6 +28,9 @@ fInstall = 1;
 /* set fDist to 1 if dist-zip is supported, otherwise set to 0 */
 fDist = 1;
 
+/* specify options passed to configure.cmd */
+sConfigureOpts = '--enable-shared --enable-static';
+
 /***** end of configuration block *****/
 
 /* get a version and a base name of package */
@@ -58,7 +61,7 @@ do
     if fRebuild then
     do
         /* create binary distribution */
-        'call configure.cmd --enable-shared --enable-static';
+        'call configure.cmd' sConfigureOpts;
 
         /* add -s to GCCOPT to remove symbols from release binaries */
         'set GCCOPT=%GCCOPT% -s';
