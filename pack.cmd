@@ -40,6 +40,7 @@ sPackageBase = delstr( sDir, pos('-os2.git', sDir ));
 sPackage = sPackageBase || '-' || sVer;
 sPackageZip = sPackage || '.zip';
 sPackageSrcZip = sPackage || sRev || '-src.zip';
+sDestDir = '\' || sPackage;
 
 if fRebuild | \fDist then
 do
@@ -85,12 +86,12 @@ else
 if fInstall then
 do
     /* install binaries */
-    'gmake install DESTDIR=/' || sPackage;
+    'gmake install DESTDIR=' || translate( sDestDir, '/', '\');
 end
 else
 do
     /* create a dir for packaging */
-    'md \' || sPackage;
+    'md' sDestDir;
 end
 
 /* create source distribution */
@@ -151,20 +152,19 @@ if fRebuild | \fDist then
 'sed s/@VER@/' || sVer|| sRev || '/g' sPackageBase || '.txt >',
      sPackage || sRev || '.txt';
 
-/* copy hobbes upload template to a dir for packaging */
-'copy' sPackage || sRev || '.txt',
-       '\' || sPackage || '\' || sPackage || sRev || '.txt';
+/* copy hobbes upload template to a dest dir */
+'copy' sPackage || sRev || '.txt' sDestDir;
 
-/* copy a source zip file to a dir for packaging */
-'move' sPackageSrcZip '\' || sPackage;
+/* copy a source zip file to a dest dir */
+'move' sPackageSrcZip sDestDir;
 
-/* copy additional files to a dir for packaging */
-'copy donation.txt \' || sPackage;
-'move os2.diff \' || sPackage;
-'if exist readme.txt copy readme.txt \' || sPackage;
+/* copy additional files to a dest dir */
+'copy donation.txt' sDestDir;
+'move os2.diff' sDestDir;
+'if exist readme.txt copy readme.txt' sDestDir;
 
 /* create a package */
-'zip -rpSm' sPackage || sRev || '.zip /' || sPackage;
+'zip -rpSm' sPackage || sRev || '.zip' sDestDir;
 
 call endlocal;
 
