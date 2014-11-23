@@ -168,7 +168,7 @@ endef
 all : $(SUBDIRS) $(BIN_PROGRAMS) $(BIN_LIBRARIES)
 
 # check if both library_LIB and library_DLL is not set
-$(foreach lib,$(BIN_LIBRARIES),$(if $(strip $($(lib)_LIB)$($(LIB)_DLL)),,$(error Either of $(lib)_LIB or $(lib)_DLL SHOULD be SET)))
+$(foreach lib,$(BIN_LIBRARIES),$(if $(strip $($(lib)_LIB)$($(lib)_DLL)),,$(error Either of $(lib)_LIB or $(lib)_DLL SHOULD be SET)))
 
 LIB_ENABLED = $(foreach lib,$(1),$(if $($(lib)_LIB),$(lib)))
 DLL_ENABLED = $(foreach dll,$(1),$(if $($(dll)_DLL),$(dll)))
