@@ -107,7 +107,7 @@ $$($(1)_OBJS) : CXXFLAGS += $($(1)_CXXFLAGS)
 
 $(1)_RES := $($(1)_RCSRC:.rc=.res)
 
-$(1)_DEF := $(if $($(1)_DEF),$($(1)_DEF),$(1)_auto.def)
+$(1)_DEF := $(if $($(1)_DEF),$($(1)_DEF),$(if $($(1)_NO_DEF),,$(1)_auto.def))
 
 $(1)_DLL_TARGET := $(if $($(1)_DLLNAME),$($(1)_DLLNAME),$(1))$(DLL_EXT)
 
@@ -126,11 +126,11 @@ $$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 
 $(1)_dll$(LIB_EXT) : $$($(1)_DLL_TARGET)
 	$(if $(QUIET), @echo [IMPLIB] $$@)
-	$(QUIET)emximp -o $$@ $$($(1)_DEF)
+	$(QUIET)emximp -o $$@ $$($(1)_DLL_TARGET)
 
 $(1)_dll$(OMF_LIB_EXT) : $$($(1)_DLL_TARGET)
 	$(if $(QUIET), @echo [IMPLIB] $$@)
-	$(QUIET)emximp -o $$@ $$($(1)_DEF)
+	$(QUIET)emximp -o $$@ $$($(1)_DLL_TARGET)
 
 $(1) : $(1)_dll$(LIB_EXT) $(1)_dll$(OMF_LIB_EXT)
 endef
