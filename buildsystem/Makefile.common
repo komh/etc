@@ -116,7 +116,7 @@ $(1)_auto.def : $$($(1)_OBJS)
 	$(QUIET)echo LIBRARY $$(notdir $$(basename $$($(1)_DLL_TARGET))) INITINSTANCE TERMINSTANCE > $$@
 	$(QUIET)echo DATA MULTIPLE NONSHARED >> $$@
 	$(QUIET)echo EXPORTS >> $$@
-	$(QUIET)emxexp $$($(1)_OBJS) >> $$@
+	$(QUIET)emxexp $$($(1)_OBJS) | sed /_DLL_InitTerm/d >> $$@
 
 $$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
