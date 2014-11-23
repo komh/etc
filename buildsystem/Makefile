@@ -46,6 +46,8 @@ RC :=
 # specify resource compiler flags
 RCFLAGS :=
 
+# Variables for programs
+#
 # 1. specify a list of programs without an extension with
 #
 #   BIN_PROGRAMS
@@ -73,6 +75,8 @@ RCFLAGS :=
 
 BIN_PROGRAMS :=
 
+# Variables for libraries
+#
 # 1. specify a list of libraries without an extension with
 #
 #   BIN_LIBRARIES
