@@ -35,6 +35,10 @@ LDFLAGS  += -s
 # pack the executable and DLLs
 LXLITE   := lxlite /B- /L- /CS
 else
+# enable symbolic debugging
+CFLAGS   += -g
+CXXFLAGS += -g
+LDFLAGS  += -g
 # ignore packing
 LXLITE   := echo strip
 endif
