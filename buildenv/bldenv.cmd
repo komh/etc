@@ -4,8 +4,8 @@ if not "x%KO_BLD_ENV%" == "x" goto end
 
 SET KO_BLD_ENV=1
 
-SET BEGINLIBPATH=f:\apps;f:\usr\lib;f:\usr\dll;f:\lang\emx\dll;f:\lang\Perl\lib;f:\lang\python27;f:\lang\qt4\bin;f:\lang\os2tk45\samples\mm\dll;f:\lang\os2tk45\som\common\dll;f:\lang\os2tk45\som\lib;f:\lang\os2tk45\dll;f:\lang\IBMCPP\DLL;f:\lang\bcos2\bin;%BEGINLIBPATH%
-SET PATH=f:\apps;f:\usr\bin;f:\usr\sbin;f:\lang\emx\bin;f:\lang\Perl\bin;f:\lang\python27;f:\lang\os2tk45\som\common;f:\lang\os2tk45\som\bin;f:\lang\os2tk45\bin;f:\lang\IBMCPP\BIN;f:\lang\IBMCPP\HELP;f:\lang\IBMCPP\SMARTS\SCRIPTS;%PATH%
+SET BEGINLIBPATH=f:\apps;f:\usr\lib;f:\usr\dll;f:\lang\emx\dll;f:\lang\perl5\bin;f:\lang\python27;f:\lang\qt4\bin;f:\lang\os2tk45\samples\mm\dll;f:\lang\os2tk45\som\common\dll;f:\lang\os2tk45\som\lib;f:\lang\os2tk45\dll;f:\lang\IBMCPP\DLL;f:\lang\bcos2\bin;%BEGINLIBPATH%
+SET PATH=f:\apps;f:\usr\bin;f:\usr\sbin;f:\lang\emx\bin;f:\lang\perl5\bin;f:\lang\python27;f:\lang\os2tk45\som\common;f:\lang\os2tk45\som\bin;f:\lang\os2tk45\bin;f:\lang\IBMCPP\BIN;f:\lang\IBMCPP\HELP;f:\lang\IBMCPP\SMARTS\SCRIPTS;%PATH%
 SET DPATH=f:\lang\os2tk45\som\common\system;f:\lang\os2tk45\som\msg;f:\lang\os2tk45\msg;f:\lang\os2tk45\book;f:\lang\emx\book;g:\books;%DPATH%
 SET BOOKSHELF=f:\lang\emx\book;f:\lang\os2tk45\book;f:\lang\ddk\docs;g:\books;f:\usr\book;%BOOKSHELF%
 
@@ -47,16 +47,16 @@ SET HELPNDX=EPMKWHLP.NDX+emxbook.ndx+tcppr.ndx+CPP.NDX+CPPBRS.NDX
 REM ----- settings for network -----
 SET USERNAME=komh
 
-REM ----- Perl 5.10.0 Settings -----
-rem SET PERLLIB_PREFIX=/perl5/lib;f:/lang/perl5/lib
-rem SET PERL_SH_DIR=f:/bin
+REM ----- Perl 5.16.0 Settings -----
+SET PERLLIB_PREFIX=/perl5/lib;f:/lang/perl5/lib
+SET PERL_SH_DIR=f:/bin
 
 REM ----- Perl 5.8.0 Settings -----
-SET PERLLIB_PREFIX=L:/Perl/lib;f:\lang\Perl\lib
-SET PERL_LIBPATH=L:/Perl/lib;f:\lang\Perl\lib;
-SET PERL_BADFREE=0
-SET PERL_BADLANG=0
-SET PERL_SH_DIR=f:\bin
+rem SET PERLLIB_PREFIX=L:/Perl/lib;f:\lang\Perl\lib
+rem SET PERL_LIBPATH=L:/Perl/lib;f:\lang\Perl\lib;
+rem SET PERL_BADFREE=0
+rem SET PERL_BADLANG=0
+rem SET PERL_SH_DIR=f:\bin
 
 REM ----- DMAKE -----
 SET MAKESTARTUP=f:\apps\dmake.ini
@@ -111,7 +111,7 @@ REM ----- settings for GIT -----
 SET GIT_FIND=f:/usr/bin/find.exe
 SET GIT_SORT=f:/usr/bin/sort.exe
 SET EMAIL=komh@chollian.net
-rem SET GITPERLLIB=f:/usr/lib/site_perl/5.10.0
+rem SET GITPERLLIB=f:/usr/lib/site_perl
 rem SET GIT_EXEC_PATH=f:/usr/libexec/git-core
 SET GIT_SSH=f:/apps/openssh/ssh.exe
 SET GIT_SHELL=f:/bin/sh.exe
