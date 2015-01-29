@@ -40,7 +40,7 @@ CFLAGS   += -g
 CXXFLAGS += -g
 LDFLAGS  += -g
 # ignore packing
-LXLITE   := echo strip
+LXLITE   := echo ignore packing
 endif
 
 # set archiver
