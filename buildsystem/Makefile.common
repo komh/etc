@@ -71,9 +71,21 @@ $(1)_RES := $$($(1)_RCSRC:.rc=.res)
 
 $(1)$(EXE_EXT) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
-	$(QUIET)$(LD) $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
+	$(QUIET)$(LD) $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
+ifneq ($$($(1)_RES),)
+ifeq ($(strip $(NO_COMPRESS_RES)),)
+	$(if $(QUIET), @echo [BIND] $$($(1)_RES) to $$@)
+	$(QUIET)$(RC) $$($(1)_RES) $$@
+endif
+endif
 	$(if $(QUIET), @echo [LXLITE] $$@)
 	$(QUIET)$(LXLITE) $$@
+ifneq ($$($(1)_RES),)
+ifneq ($(strip $(NO_COMPRESS_RES)),)
+	$(if $(QUIET), @echo [BIND] $$($(1)_RES) to $$@)
+	$(QUIET)$(RC) $$($(1)_RES) $$@
+endif
+endif
 
 $(1) : $(1)$(EXE_EXT)
 endef
@@ -124,9 +136,21 @@ $(1)_auto.def : $$($(1)_OBJS)
 
 $$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
-	$(QUIET)$(LD) -Zdll $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
+	$(QUIET)$(LD) -Zdll $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
+ifneq ($$($(1)_RES),)
+ifeq ($(strip $(NO_COMPRESS_RES)),)
+	$(if $(QUIET), @echo [BIND] $$($(1)_RES) to $$@)
+	$(QUIET)$(RC) $$($(1)_RES) $$@
+endif
+endif
 	$(if $(QUIET), @echo [LXLITE] $$@)
 	$(QUIET)$(LXLITE) $$@
+ifneq ($$($(1)_RES),)
+ifneq ($(strip $(NO_COMPRESS_RES)),)
+	$(if $(QUIET), @echo [BIND] $$($(1)_RES) to $$@)
+	$(QUIET)$(RC) $$($(1)_RES) $$@
+endif
+endif
 
 $(1)_dll$(LIB_EXT) : $$($(1)_DLL_TARGET)
 	$(if $(QUIET), @echo [IMPLIB] $$@)

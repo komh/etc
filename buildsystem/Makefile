@@ -46,6 +46,9 @@ RC :=
 # specify resource compiler flags
 RCFLAGS :=
 
+# set if you want not to compress resources
+NO_COMPRESS_RES :=
+
 # Variables for programs
 #
 # 1. specify a list of programs without an extension with
