@@ -88,6 +88,9 @@ else
 
 if fInstall then
 do
+    /* build */
+    'gmake'
+
     /* install binaries */
     'gmake install DESTDIR=' || translate( sDestDir, '/', '\');
 end
