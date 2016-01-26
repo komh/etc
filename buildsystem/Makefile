@@ -114,7 +114,7 @@ BIN_PROGRAMS :=
 #   library_RCSRC       for rc source
 #   library_RCFLAGS     for rc flags
 #   library_DEF         for .def file, if not set all the symbols are exported
-#   library_NO_DEF      if set, .def file is not generated automatically
+#   library_NO_EXPORT   if set, no symbols are exported in .def file
 #   library_EXTRADEPS   for extra dependencies
 #
 # the above is only for DLL

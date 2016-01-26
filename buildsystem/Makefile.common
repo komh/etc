@@ -123,7 +123,7 @@ $$($(1)_OBJS) : CXXFLAGS += $($(1)_CXXFLAGS)
 
 $(1)_RES := $($(1)_RCSRC:.rc=.res)
 
-$(1)_DEF := $(if $($(1)_DEF),$($(1)_DEF),$(if $($(1)_NO_DEF),,$(1)_auto.def))
+$(1)_DEF := $(if $($(1)_DEF),$($(1)_DEF),$(1)_auto.def)
 
 $(1)_DLL_TARGET := $(if $($(1)_DLLNAME),$($(1)_DLLNAME),$(1))$(DLL_EXT)
 
@@ -131,8 +131,10 @@ $(1)_auto.def : $$($(1)_OBJS)
 	$(if $(QUIET), @echo [GEN] $$@)
 	$(QUIET)echo LIBRARY $$(notdir $$(basename $$($(1)_DLL_TARGET))) INITINSTANCE TERMINSTANCE > $$@
 	$(QUIET)echo DATA MULTIPLE NONSHARED >> $$@
+ifeq ($(strip $$($(1)_NO_EXPORT)),)
 	$(QUIET)echo EXPORTS >> $$@
 	$(QUIET)emxexp $$($(1)_OBJS) | sed /_DLL_InitTerm/d >> $$@
+endif
 
 $$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
