@@ -86,7 +86,7 @@ BIN_PROGRAMS :=
 #
 # Now, assume
 #
-#   BIN_PROGRAMS := library
+#   BIN_LIBRARIES := library
 #
 # 2. specify sources for a specific library with
 #
