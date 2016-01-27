@@ -29,6 +29,10 @@ LD  := g++
 # always build with -Zomf
 LDFLAGS += -Zomf
 
+ifneq ($(filter wlink WLINK,$(EMXOMFLD_TYPE)),)
+LDFLAGS += -Zlinker "DISABLE 1121"
+endif
+
 ifdef RELEASE
 # remove symbols
 LDFLAGS  += -s
