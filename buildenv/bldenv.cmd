@@ -12,7 +12,7 @@ SET BOOKSHELF=f:\lang\emx\book;f:\lang\os2tk45\book;f:\lang\ddk\docs;g:\books;f:
 REM ----- OS2UNIX Environment -----
 SET HOME=f:/home/komh
 SET USER=komh
-SET EDITOR=f:\apps\q.exe
+SET EDITOR=f:/apps/q.exe
 SET UNIXROOT=f:
 SET INFOPATH=.;f:/usr/local/info;f:/usr/local/share/info;f:/usr/info;f:/usr/share/info;f:/lang/emx/info;F:/apps/octave/doc;
 SET TERMINFO=f:/usr/local/share/terminfo
