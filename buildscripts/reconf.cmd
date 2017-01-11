@@ -1,5 +1,5 @@
 extproc sh
 
-export COMSPEC=/bin/sh
+export MAKESHELL=/bin/sh
 
 autoreconf -fvi "$@"
