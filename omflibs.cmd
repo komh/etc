@@ -35,7 +35,7 @@ exit
 check: procedure
 parse arg name
 emxomf = '@f:\lang\gcc\usr\bin\emxomf.exe -s -l -q -p 256'
-touch = '@f:\usr\bin\touch.exe -r'
+touch = '@f:\usr\local\bin\touch.exe -r'
 src = name||'.a'
 dst = name||'.lib'
 s = stream(src, 'C', 'QUERY DATETIME')
