@@ -5,5 +5,4 @@ export PATH=$(expr "$PATH" | tr '\\' /)
 
 export ac_executable_extensions=".exe"
 
-./configure --prefix=/usr "$@"
-
+./configure "$@"
