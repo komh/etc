@@ -29,7 +29,7 @@ fInstall = 1;
 fDist = 1;
 
 /* specify options passed to configure.cmd */
-sConfigureOpts = '--enable-shared --enable-static';
+sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
 
 /***** end of configuration block *****/
 
