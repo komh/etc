@@ -21,7 +21,7 @@ rem SET LANGUAGE=ko
 SET CONFIG_SITE=f:/usr/local/etc/config.site
 
 REM ----- settings for pkg-config -----
-SET PKG_CONFIG_PATH=f:/usr/local/lib/pkgconfig;f:/usr/lib/pkgconfig
+SET PKG_CONFIG_PATH=f:/usr/local/lib/pkgconfig;f:/usr/local/share/pkgconfig;f:/usr/lib/pkgconfig;f:/usr/share/pkgconfig
 rem SET PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
 rem SET PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
 
