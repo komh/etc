@@ -25,8 +25,20 @@ fMakeClean = 1;
 /* set fInstall to 1 if binaries should be installed, otherwise set to 0 */
 fInstall = 1;
 
-/* set fDist to 1 if dist-zip is supported, otherwise set to 0 */
+/* set fDist to 1 if source archiving is supported, otherwise set to 0 */
 fDist = 1;
+
+/* specify commands passed to make to archive sources */
+sDistCmds = 'dist-zip'
+
+/* set fDistExtZip to 1 if an extension of the archived source is .zip */
+fDistExtZip = 1;
+
+/* specify an extension of non-zip source archive */
+sDistNonZipExt = '.tar.gz';
+
+/* specify commands to convert non-zip archive to zip archive */
+sDistExtractCmds = 'tar xvzf';
 
 /* specify options passed to configure.cmd */
 sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
@@ -108,8 +120,16 @@ do
      */
     'if exist .git ren .git .git.sav';
 
-    /* create a source zip */
-    'gmake dist-zip';
+    /* create a source archive */
+    'gmake' sDistCmds;
+
+    if \fDistExtZip then
+    do
+        sDistExtractCmds sPackage || sDistNonZipExt;
+        'zip -rpS' sPackageZip sPackage;
+        'rm -f' sPackage || sDistNonZipExt;
+        'rm -rf' sPackage;
+    end
 
     /* add additional files to a source zip */
     'if exist autogen.cmd zip' sPackageZip 'autogen.cmd';
