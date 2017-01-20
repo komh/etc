@@ -40,6 +40,9 @@ sDistNonZipExt = '.tar.gz';
 /* specify commands to convert non-zip archive to zip archive */
 sDistExtractCmds = 'tar xvzf';
 
+/* set fDistUseGit to 1 if use git when fDist is 0 */
+fDistUseGit = 1;
+
 /* specify options passed to configure.cmd */
 sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
 
@@ -57,12 +60,12 @@ sPackageZip = sPackage || '.zip';
 sPackageSrcZip = sPackage || sRev || '-src.zip';
 sDestDir = '\' || sPackage;
 
-if fRebuild | \fDist then
+if fRebuild | (\fDist & \fDistUseGit) then
 do
     /* get a temporary directory name for packaging */
     sDirPackBase = sDir || '.pack';
     sDirPack = sDirPackBase;
-    if fDist \= 1 then
+    if \fDist & \fDistUseGit then
         sDirPack = sDirPack || '\' || sPackage;
 
     /* prepare a temporary directory for packaging */
@@ -143,6 +146,11 @@ do
     /* restore .git directory */
     'if exist .git.sav ren .git.sav .git';
 end
+else if fDistUseGit then
+do
+    'git archive --format=zip HEAD --prefix=' || sPackage || '/',
+        '> ..\' || sPackageSrcZip;
+end
 else
 do
     /* clean all generated files */
@@ -166,7 +174,7 @@ end
 'cd ..';
 
 /* clean a temporary directory up */
-if fRebuild | \fDist then
+if fRebuild | (\fDist & \fDistUseGit) then
     'rm -rf' sDirPackBase;
 
 /* create diffs in a parent directory */
