@@ -25,6 +25,11 @@ fMakeClean = 1;
 /* set fInstall to 1 if binaries should be installed, otherwise set to 0 */
 fInstall = 1;
 
+/* set fIncludeSource to 1 if source archive should be included, otherwise
+ * set to 0
+ */
+fIncludeSource = 1;
+
 /* set fDist to 1 if source archiving is supported, otherwise set to 0 */
 fDist = 1;
 
@@ -60,12 +65,12 @@ sPackageZip = sPackage || '.zip';
 sPackageSrcZip = sPackage || sRev || '-src.zip';
 sDestDir = '\' || sPackage;
 
-if fRebuild | (\fDist & \fDistUseGit) then
+if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 do
     /* get a temporary directory name for packaging */
     sDirPackBase = sDir || '.pack';
     sDirPack = sDirPackBase;
-    if \fDist & \fDistUseGit then
+    if fIncludeSource & \fDist & \fDistUseGit then
         sDirPack = sDirPack || '\' || sPackage;
 
     /* prepare a temporary directory for packaging */
@@ -116,7 +121,11 @@ do
 end
 
 /* create source distribution */
-if fDist then
+if \fIncludeSource then
+do
+/* nothing to do */
+end
+else if fDist then
 do
     /* rename .git directory
      * to prevent local changes from being written into ChangeLog
@@ -174,7 +183,7 @@ end
 'cd ..';
 
 /* clean a temporary directory up */
-if fRebuild | (\fDist & \fDistUseGit) then
+if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
     'rm -rf' sDirPackBase;
 
 /* create diffs in a parent directory */
