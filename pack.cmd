@@ -51,8 +51,13 @@ fDistUseGit = 1;
 /* specify options passed to configure.cmd */
 sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
 
-/* specify extra dist files */
-sExtraDistFiles = '';
+/* specify extra dist files separated by a space. A series of
+ * 'DIST_FILE1' 'INSTALL_DIR1' 'DIST_FILE2' 'INSTALL_DIR2' ...
+ * For example,
+ *      'readme.os2' '/',
+ *      'os2.cfg' '/usr/etc'
+ */
+sExtraDistFiles = '' '';
 
 /***** end of configuration block *****/
 
@@ -212,9 +217,14 @@ if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 /* copy extra dist files */
 sExtraDistFiles = translate( sExtraDistFiles, '\', '/');
 do while strip( sExtraDistFiles ) \= ''
-    parse value strip( sExtraDistFiles ) with sFile sExtraDistFiles;
+    parse value strip( sExtraDistFiles ) with sExtraSrc sExtraDestDir sExtraDistFiles;
 
-    'copy' sFile sDestDir;
+    sExtraDestDir = sDestDir || sExtraDestDir;
+    call makeDir sExtraDestDir;
+
+    sExtraDestName = substr( sExtraSrc, lastpos('\', sExtraSrc ) + 1 );
+
+    'copy' sExtraSrc sExtraDestDir || '\' || sExtraDestName;
 end
 
 /* create a package */
@@ -223,6 +233,24 @@ end
 call endlocal;
 
 exit 0;
+
+makeDir: procedure
+    parse arg sDirPath;
+
+    p = 0;
+    if left( sDirPath, 1 ) = '\' then
+        p = 1;
+
+    p = pos('\', sDirPath, p + 1 );
+    do while p > 0
+        sDir = substr( sDirPath, 1, p - 1 );
+        'if not exist' sDir 'md' sDir;
+
+        p = pos('\', sDirPath, p + 1 );
+    end
+    'if not exist' sDirPath 'md' sDirPath;
+
+    return;
 
 findRm: procedure
     /* a file list is separated by a space */
