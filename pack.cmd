@@ -51,6 +51,9 @@ fDistUseGit = 1;
 /* specify options passed to configure.cmd */
 sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
 
+/* specify extra dist files */
+sExtraDistFiles = '';
+
 /***** end of configuration block *****/
 
 /* get a version and a base name of package */
@@ -205,6 +208,14 @@ if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 'copy donation.txt' sDestDir;
 'move os2.diff' sDestDir;
 'if exist readme.txt copy readme.txt' sDestDir;
+
+/* copy extra dist files */
+sExtraDistFiles = translate( sExtraDistFiles, '\', '/');
+do while strip( sExtraDistFiles ) \= ''
+    parse value strip( sExtraDistFiles ) with sFile sExtraDistFiles;
+
+    'copy' sFile sDestDir;
+end
 
 /* create a package */
 'zip -rpSm' sPackage || sRev || '.zip' sDestDir;
