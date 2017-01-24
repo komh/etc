@@ -59,6 +59,11 @@ sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
  */
 sExtraDistFiles = '' '';
 
+/* specify libc name to distinguish from build using other libc.
+ * For example, '-klibc' for kLIBC
+ */
+sLibc = '';
+
 /***** end of configuration block *****/
 
 /* get a version and a base name of package */
@@ -70,7 +75,7 @@ sPackageBase = delstr( sDir, pos('-os2.git', sDir ));
 /* get a package name */
 sPackage = sPackageBase || '-' || sVer;
 sPackageZip = sPackage || '.zip';
-sPackageSrcZip = sPackage || sRev || '-src.zip';
+sPackageSrcZip = sPackage || sRev || sLibc || '-src.zip';
 sDestDir = '\' || sPackage;
 
 if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
@@ -201,10 +206,10 @@ if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 
 /* prepare hobbes upload template */
 'sed s/@VER@/' || sVer|| sRev || '/g' sPackageBase || '.txt >',
-     sPackage || sRev || '.txt';
+     sPackage || sRev || sLibc || '.txt';
 
 /* copy hobbes upload template to a dest dir */
-'copy' sPackage || sRev || '.txt' sDestDir;
+'copy' sPackage || sRev || sLibc || '.txt' sDestDir;
 
 /* copy a source zip file to a dest dir */
 'move' sPackageSrcZip sDestDir;
@@ -228,7 +233,7 @@ do while strip( sExtraDistFiles ) \= ''
 end
 
 /* create a package */
-'zip -rpSm' sPackage || sRev || '.zip' sDestDir;
+'zip -rpSm' sPackage || sRev || sLibc || '.zip' sDestDir;
 
 call endlocal;
 
