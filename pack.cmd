@@ -57,6 +57,9 @@ sDistExtractCmds = 'tar xvzf';
 /* set fDistUseGit to 1 if use git when fDist is 0 */
 fDistUseGit = 1;
 
+/* specify a .diff name */
+sDiffName = 'os2.diff';
+
 /* specify extra dist files separated by a space. A series of
  * 'DIST_FILE1' 'INSTALL_DIR1' 'DIST_FILE2' 'INSTALL_DIR2' ...
  * For example,
@@ -202,7 +205,7 @@ if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 
 /* create diffs in a parent directory */
 'cd' sDir;
-'git diff' sVer 'HEAD > ..\os2.diff';
+'git diff' sVer 'HEAD > ..\' || sDiffName;
 'cd ..';
 
 /* prepare hobbes upload template */
@@ -218,8 +221,8 @@ if fIncludeSource then
 
 /* copy additional files to a dest dir */
 'copy donation.txt' sDestDir;
-if stream('os2.diff', 'c', 'query size') > 0 then
-    'move os2.diff' sDestDir;
+if stream(sDiffName, 'c', 'query size') > 0 then
+    'move' sDiffName sDestDir;
 'if exist readme.txt copy readme.txt' sDestDir;
 
 /* copy extra dist files */
