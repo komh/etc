@@ -223,6 +223,7 @@ if fIncludeSource then
 'copy donation.txt' sDestDir;
 if stream(sDiffName, 'c', 'query size') > 0 then
     'move' sDiffName sDestDir;
+'if exist' sDiffName 'del' sDiffName;
 'if exist readme.txt copy readme.txt' sDestDir;
 
 /* copy extra dist files */
