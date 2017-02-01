@@ -213,11 +213,13 @@ if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 'copy' sPackage || sRev || sPostFix || '.txt' sDestDir;
 
 /* copy a source zip file to a dest dir */
-'move' sPackageSrcZip sDestDir;
+if fIncludeSource then
+    'move' sPackageSrcZip sDestDir;
 
 /* copy additional files to a dest dir */
 'copy donation.txt' sDestDir;
-'move os2.diff' sDestDir;
+if stream('os2.diff', 'c', 'query size') > 0 then
+    'move os2.diff' sDestDir;
 'if exist readme.txt copy readme.txt' sDestDir;
 
 /* copy extra dist files */
