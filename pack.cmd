@@ -1,5 +1,5 @@
 /* pack.cmd */
-parse arg sDir sRev;
+parse arg sDir;
 
 if sDir = '' then
 do
@@ -11,6 +11,9 @@ end
 call setlocal;
 
 /***** start of configuration block *****/
+
+/* specify revision */
+sRev = '';
 
 /* set fRebuild to 1 if a package should be rebuild after clean,
  * otherwise set to 0
