@@ -15,10 +15,16 @@ call setlocal;
 /* specify revision */
 sRev = '';
 
+/* specify postfix. For example, '-klibc' for kLIBC */
+sPostFix = '';
+
 /* set fRebuild to 1 if a package should be rebuild after clean,
  * otherwise set to 0
  */
 fRebuild = 1;
+
+/* specify options passed to configure.cmd */
+sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
 
 /* set fMakeClean to 1 if using make for clean,
  * or set to 0 if doing clean manually
@@ -51,9 +57,6 @@ sDistExtractCmds = 'tar xvzf';
 /* set fDistUseGit to 1 if use git when fDist is 0 */
 fDistUseGit = 1;
 
-/* specify options passed to configure.cmd */
-sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
-
 /* specify extra dist files separated by a space. A series of
  * 'DIST_FILE1' 'INSTALL_DIR1' 'DIST_FILE2' 'INSTALL_DIR2' ...
  * For example,
@@ -61,9 +64,6 @@ sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
  *      'os2.cfg' '/usr/etc'
  */
 sExtraDistFiles = '' '';
-
-/* specify postfix. For example, '-klibc' for kLIBC */
-sPostFix = '';
 
 /***** end of configuration block *****/
 
