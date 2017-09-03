@@ -5,4 +5,4 @@ export PATH=$(expr "$PATH" | tr '\\' /)
 
 export ac_executable_extensions=".exe"
 
-./configure. "$@"
+./configure. "$@" 2>&1 | tee configure.log
