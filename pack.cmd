@@ -29,8 +29,25 @@ fRebuild = 1;
     /***** when fRebuild = 1 *****/
     /*****************************/
 
-    /* specify options passed to configure.cmd */
-    sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
+    /* set fUseCmake to 1 if building with CMake */
+    fUseCMake = 0;
+
+        /******************************/
+        /***** when fUseCMake = 0 *****/
+        /******************************/
+
+        /* specify options passed to configure.cmd */
+        sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
+
+        /******************************/
+        /***** when fUseCMake = 1 *****/
+        /******************************/
+
+        /* specify options passed to cmake */
+        sCMakeOpts = '-DCMAKE_INSTALL_PREFIX=/usr';
+
+        /* set fCMakeSharedLibs to 1 if shared libs are needed */
+        fCMakeBuildSharedLibs = 1;
 
     /* set fMakeClean to 1 if using make for clean,
      * or set to 0 if doing clean manually
@@ -112,23 +129,35 @@ sPackageZip = sPackage || '.zip';
 sPackageSrcZip = sPackage || sRev || sPostFix || '-src.zip';
 sDestDir = '\' || sPackage;
 
+/* CMake flag to determine to build shared libs */
+sCMakeBuildSharedLibs = 'off';
+
+CMakeBuildLibs:
+
 if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 do
-    /* get a temporary directory name for packaging */
-    sDirPackBase = sDir || '.pack';
-    sDirPack = sDirPackBase;
-    if fIncludeSource & \fDist & \fDistUseGit then
-        sDirPack = sDirPack || '\' || sPackage;
+    if \fUseCMake | sCMakeBuildSharedLibs = 'off' then
+    do
+        /* get a temporary directory name for packaging */
+        sDirPackBase = sDir || '.pack';
+        sDirPack = sDirPackBase;
+        if fIncludeSource & \fDist & \fDistUseGit then
+            sDirPack = sDirPack || '\' || sPackage;
 
-    /* prepare a temporary directory for packaging */
-    'md' sDirPackBase;
-    'xcopy /s/e/v/h/t/r' sDir sDirPack || '\';
-    'cd' sDirPack;
+        /* prepare a temporary directory for packaging */
+        'md' sDirPackBase;
+        'xcopy /s/e/v/h/t/r' sDir sDirPack || '\';
+        'cd' sDirPack;
+    end
 
     if fRebuild then
     do
         /* create binary distribution */
-        'call configure.cmd' sConfigureOpts;
+
+        if fUseCMake then
+            'cmake' sCMakeOpts '-DBUILD_SHARED_LIBS=' || sCMakeBuildSharedLibs;
+        else
+            'call configure.cmd' sConfigureOpts;
 
         /* add -s to GCCOPT to remove symbols from release binaries */
         'set GCCOPT=%GCCOPT% -s';
@@ -165,6 +194,13 @@ else
 do
     /* create a dir for packaging */
     'md' sDestDir;
+end
+
+if fUseCMake & sCMakeBuildSharedLibs = 'off' then
+do
+    sCMakeBuildSharedLibs = 'on';
+
+    signal CMakeBuildLibs;
 end
 
 /* create source distribution */
