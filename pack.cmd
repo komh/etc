@@ -10,7 +10,9 @@ end
 
 call setlocal;
 
+/****************************************/
 /***** start of configuration block *****/
+/****************************************/
 
 /* specify revision */
 sRev = '';
@@ -23,13 +25,17 @@ sPostFix = '';
  */
 fRebuild = 1;
 
-/* specify options passed to configure.cmd */
-sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
+    /*****************************/
+    /***** when fRebuild = 1 *****/
+    /*****************************/
 
-/* set fMakeClean to 1 if using make for clean,
- * or set to 0 if doing clean manually
- */
-fMakeClean = 1;
+    /* specify options passed to configure.cmd */
+    sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
+
+    /* set fMakeClean to 1 if using make for clean,
+     * or set to 0 if doing clean manually
+     */
+    fMakeClean = 1;
 
 /* set fInstall to 1 if binaries should be installed, otherwise set to 0 */
 fInstall = 1;
@@ -39,23 +45,43 @@ fInstall = 1;
  */
 fIncludeSource = 1;
 
-/* set fDist to 1 if source archiving is supported, otherwise set to 0 */
-fDist = 1;
+    /***********************************/
+    /***** when fIncludeSource = 1 *****/
+    /***********************************/
 
-/* specify commands passed to make to archive sources */
-sDistCmds = 'dist-zip'
+    /* set fDist to 1 if source archiving is supported,
+     * otherwise set to 0
+     */
+    fDist = 1;
 
-/* set fDistExtZip to 1 if an extension of the archived source is .zip */
-fDistExtZip = 1;
+        /***************************/
+        /***** when fDist = 1 ******/
+        /***************************/
 
-/* specify an extension of non-zip source archive */
-sDistNonZipExt = '.tar.gz';
+        /* specify commands passed to make to archive sources */
+        sDistCmds = 'dist-zip'
 
-/* specify commands to convert non-zip archive to zip archive */
-sDistExtractCmds = 'tar xvzf';
+        /* set fDistExtZip to 1 if an extension of the archived source is
+         * .zip
+         */
+        fDistExtZip = 1;
 
-/* set fDistUseGit to 1 if use git when fDist is 0 */
-fDistUseGit = 1;
+            /********************************/
+            /***** when fDistExtZip = 0 *****/
+            /********************************/
+
+            /* specify an extension of non-zip source archive */
+            sDistNonZipExt = '.tar.gz';
+
+            /* specify commands to convert non-zip archive to zip archive */
+            sDistExtractCmds = 'tar xvzf';
+
+        /**************************/
+        /***** when fDist = 0 *****/
+        /**************************/
+
+        /* set fDistUseGit to 1 if use git when fDist is 0 */
+        fDistUseGit = 1;
 
 /* specify a .diff name */
 sDiffName = 'os2.diff';
@@ -68,7 +94,9 @@ sDiffName = 'os2.diff';
  */
 sExtraDistFiles = '' '';
 
+/**************************************/
 /***** end of configuration block *****/
+/**************************************/
 
 'echo on';
 
