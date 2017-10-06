@@ -70,6 +70,8 @@ sExtraDistFiles = '' '';
 
 /***** end of configuration block *****/
 
+'echo on';
+
 /* get a version and a base name of package */
 'cd' sDir;
 sVer = getOutput('git describe --abbrev=0');
