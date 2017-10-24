@@ -1,0 +1,11 @@
+prefix=/lang/qt4
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: Qtgui
+Description: Qtgui Library
+Version: 4.7.3
+Libs: -L${libdir} -lQtGui4
+Cflags: -I${includedir} -I${includedir}/QtGui -I${prefix}/mkspecs/default
+Requires: QtCore

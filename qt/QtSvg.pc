@@ -1,0 +1,11 @@
+prefix=/lang/qt4
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: Qtsvg
+Description: Qtsvg Library
+Version: 4.7.3
+Libs: -L${libdir} -lQtSvg4
+Cflags: -I${includedir} -I${includedir}/QtSvg -I${prefix}/mkspecs/default
+Requires: QtCore QtGui
