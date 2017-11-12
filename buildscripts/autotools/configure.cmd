@@ -5,5 +5,6 @@ export PATH=$(expr "$PATH" | tr '\\' /)
 
 export ac_executable_extensions=".exe"
 
-test -f ./configure. || { echo "\`./configure' not found !!!"; exit 1; }
-./configure "$@" 2>&1 | tee configure.log
+n=configure
+test -f "./$n." || { echo "\`./$n' not found !!!"; exit 1; }
+./$n "$@" 2>&1 | tee "$n.log"
