@@ -7,4 +7,4 @@ export ac_executable_extensions=".exe"
 
 n=configure
 test -f "./$n." || { echo "\`./$n' not found !!!"; exit 1; }
-./$n "$@" 2>&1 | tee "$n.log"
+"./$n" "$@" 2>&1 | tee "$n.log"
