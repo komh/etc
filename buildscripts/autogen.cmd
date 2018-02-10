@@ -6,4 +6,4 @@ aclocal                              \
   && autoconf                        \
   && automake -a                     \
   && echo autogen succeeded.         \
-  || echo autogen failed.
+  || echo autogen failed.   2>&1 | tee autogen.log
