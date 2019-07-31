@@ -171,12 +171,16 @@ endif
 endif
 
 $(1)_dll$(LIB_EXT) : $$($(1)_DLL_TARGET)
+ifeq ($$($(1)_NO_IMPLIB),)
 	$(if $(QUIET), @echo [IMPLIB] $$@)
 	$(QUIET)emximp -o $$@ $$($(1)_DLL_TARGET)
+endif
 
 $(1)_dll$(OMF_LIB_EXT) : $$($(1)_DLL_TARGET)
+ifeq ($$($(1)_NO_IMPLIB),)
 	$(if $(QUIET), @echo [IMPLIB] $$@)
 	$(QUIET)emximp -o $$@ $$($(1)_DLL_TARGET)
+endif
 
 $(1) : $(1)_dll$(LIB_EXT) $(1)_dll$(OMF_LIB_EXT)
 endef

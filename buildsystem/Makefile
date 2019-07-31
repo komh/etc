@@ -116,6 +116,7 @@ BIN_PROGRAMS :=
 #   library_DEF         for .def file, if not set all the symbols are exported
 #   library_NO_EXPORT   if set, no symbols are exported in .def file
 #   library_EXTRADEPS   for extra dependencies
+#   library_NO_IMPLIB   if set, implib is not generated.
 #
 # the above is only for DLL
 
