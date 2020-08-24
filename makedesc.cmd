@@ -318,7 +318,7 @@ LookupDefine: procedure
 
             call stream sIncludeFile, 'c', 'close';
             sValue = substr(sLine, 2, iLastQuote - 2);
-            say 'Found 'sMacro'='sValue;
+            /*say 'Found 'sMacro'='sValue;*/
             return sValue;
         end
         else
@@ -355,7 +355,7 @@ LookupDefine: procedure
                 say 'warning: The #define has no value.';
 
             call stream sIncludeFile, 'c', 'close';
-            say 'Found 'sMacro'='sValue;
+            /*say 'Found 'sMacro'='sValue;*/
             return sValue;
         end
     end
@@ -429,7 +429,7 @@ ReadDescription: procedure;
 
         call stream sDefFile, 'c', 'close';
         sValue = substr(sLine, 2, iEnd - 2);
-        say 'Found Description:' sValue;
+        /*say 'Found Description:' sValue;*/
         return sValue;
     end
 
