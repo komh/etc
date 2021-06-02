@@ -124,32 +124,32 @@ GCC322plus: procedure
     call EnvSet      fRM, 'BUILD_ENV',      'EMX'
     call EnvSet      fRM, 'BUILD_PLATFORM', 'OS2'
 
-    call EnvAddFront fRM, 'BEGINLIBPATH',       sGCCBack'\lib;'
+    /*call EnvAddFront fRM, 'BEGINLIBPATH',       sGCCBack'\lib;'*/
     call EnvAddFront fRM, 'BEGINLIBPATH',       sGCCBack'\'sNewDir'\lib;'
-    call EnvAddFront fRM, 'DPATH',              sGCCBack'\lib;'
+    /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\lib;'*/
     call EnvAddFront fRM, 'DPATH',              sGCCBack'\'sNewDir'\lib;'
     /*call EnvAddFront fRM, 'HELP',               sGCCBack'\lib;'*/
-    call EnvAddFront fRM, 'PATH',               sGCCBack'\bin;'
+    /*call EnvAddFront fRM, 'PATH',               sGCCBack'\bin;'*/
     call EnvAddFront fRM, 'PATH',               sGCCBack'\'sNewDir'\bin;'
     call EnvAddFront fRM, 'PATH',               sGCCBack'\'sNewDir'\libexec\gcc\'sNewTrgt'\'sNewVer';'
-    /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\book;'
-    call EnvAddFront fRM, 'BOOKSHELF',          sGCCBack'\book;'
-    call EnvAddFront fRM, 'HELP',               sGCCBack'\help;' */
-    call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/include;'
+    /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\book;'*/
+    /*call EnvAddFront fRM, 'BOOKSHELF',          sGCCBack'\book;'*/
+    /*call EnvAddFront fRM, 'HELP',               sGCCBack'\help;'*/
+    /*call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/include;'*/
     call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/'sNewDir'/include;'
     call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/'sNewDir'/lib/gcc/'sNewTrgt'/'sNewVer'/include;'
-    call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/include;'
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/include;'*/
     call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include;'
     call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer'/backward;'
     call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer'/'sNewTrgt';'
     call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer';'
-    call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/lib;'
+    /*call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/lib;'*/
     call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/'sNewDir'/lib;'
     call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/'sNewDir'/lib/gcc/'sNewTrgt'/'sNewVer';'
-    call EnvAddFront fRM, 'INFOPATH',           sGCCForw'/info;'
+    /*call EnvAddFront fRM, 'INFOPATH',           sGCCForw'/info;'*/
     call EnvAddFront fRM, 'INFOPATH',           sGCCForw'/'sNewDir'/info;'
     /* is this used? */
-    call EnvSet      fRM, 'PROTODIR',           sGCCForw'/include/c++/gen'
+    /*call EnvSet      fRM, 'PROTODIR',           sGCCForw'/include/c++/gen'*/
 
     /* use wlink? */
     if (sLinker = 'WLINK') then
