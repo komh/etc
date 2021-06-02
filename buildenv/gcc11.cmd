@@ -110,9 +110,9 @@ GCC322plus: procedure
     sVer        = chMajor'.'chMinor'.'chRel
     sVerShrt    = chMajor||chMinor||chRel;
     sTrgt       = 'i386-pc-os2-emx'
-    chNewMajor  = '11';
-    chNewMinor  = '1';
-    chNewRel    = '0';
+    chNewMajor  = left(right(sToolId, 4), 2);
+    chNewMinor  = left(right(sToolId, 2), 1);
+    chNewRel    = right(sToolId, 1);
     sNewVer     = chNewMajor'.'chNewMinor'.'chNewRel;
     sNewDir     = 'local'||chNewMajor||chNewMinor||chNewRel;
     sNewTrgt    = 'i686-pc-os2-emx'
