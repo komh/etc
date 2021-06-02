@@ -1,11 +1,13 @@
 @ECHO OFF
 
 setlocal
+
 SET ICCDIR=f:\lang\ibmcpp
 
+SET OLDE=%ENDLIBPATH%
 SET ENDLIBPATH=f:\lang\os2tk45\samples\mm\dll;f:\lang\os2tk45\som\common\dll;f:\lang\os2tk45\som\lib;f:\lang\os2tk45\dll;%ICCDIR%\DLL;%ENDLIBPATH%;
 SET PATH=f:\lang\os2tk45\som\common;f:\lang\os2tk45\som\bin;f:\lang\os2tk45\bin;%ICCDIR%\BIN;%ICCDIR%\SMARTS\SCRIPTS;%ICCDIR%\HELP;%PATH%
-SET DPATH=f:\lang\os2tk45\som\common\system;f:\lang\os2tk45\som\msg;f:\lang\os2tk45\msg;g:\books;%ICCDIR%\HELP;%ICCDIR%;%ICCDIR%\LOCALE;%ICCDIR%\MACROS;%ICCDIR%\BND;%DPATH%
+SET DPATH=f:\lang\os2tk45\som\common\system;f:\lang\os2tk45\som\msg;f:\lang\os2tk45\msg;%ICCDIR%\HELP;%ICCDIR%;%ICCDIR%\LOCALE;%ICCDIR%\MACROS;%ICCDIR%\BND;%DPATH%
 SET HELP=%ICCDIR%\HELP;%ICCDIR%\SAMPLES\TOOLKIT\HELP;%HELP%
 SET BOOKSHELF=%ICCDIR%\HELP;%BOOKSHELF%
 REM SET SOMIR=%SOMIR%;%ICCDIR%\ETC\SOM.IR;
@@ -35,7 +37,7 @@ SET SOMBASE=%ICCDIR%
 SET SMTMP=%ICCDIR%\TMP
 SET SMCLASSES=WPTYPES.IDL
 SET TMP=%TMPDIR%
-SET HELPNDX=EPMKWHLP.NDX+tcppr.ndx+CPP.NDX+CPPBRS.NDX+%HELPNDX%
+SET HELPNDX=EPMKWHLP.NDX+CPP.NDX+CPPBRS.NDX+%HELPNDX%
 SET CPPLOCAL=%ICCDIR%
 SET CPPMAIN=%ICCDIR%
 SET CPPWORK=%ICCDIR%
@@ -54,12 +56,11 @@ echo ****************************************************************
 
 %COMSPEC%
 
+SET ENDLIBPATH=%OLDE%
+
 endlocal
 
 echo.
 echo ****************************************************************
 echo                 Back to original configuration
 echo ****************************************************************
-
-
-

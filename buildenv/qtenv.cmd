@@ -1,8 +1,18 @@
-call gcc4.cmd WLINK
+@echo off
+
+set GCCENVCMD=%1
+set QTDIR=%2
+
+if "%GCCENVCMD%" == "" set GCCENVCMD=gcc4
+if "%QTDIR%" == "" set QTDIR=f:\lang\qt4
+
+call %GCCENVCMD%.cmd
+
 set MAKESHELL=e:\os2\cmd.exe
-set qtdir=%1
-if "%qtdir%" == "" set qtdir=f:\lang\qt4
-set path=%qtdir%\bin;%PATH%
-set beginlibpath=%qtdir%\bin;%BEGINLIBPATH%
-set qtdir=
+
+set PATH=%QTDIR%\bin;%PATH%
+set BEGINLIBPATH=%QTDIR%\bin;%BEGINLIBPATH%
 set CPLUS_INCLUDE_PATH=.;%CPLUS_INCLUDE_PATH%
+
+set GCCENVCMD=
+set QTDIR=

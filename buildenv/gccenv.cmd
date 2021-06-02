@@ -122,7 +122,6 @@ GCC322plus: procedure
     call EnvAddFront fRM, 'DPATH',              sGCCBack'\lib;'
     /*call EnvAddFront fRM, 'HELP',               sGCCBack'\lib;'*/
     call EnvAddFront fRM, 'PATH',               sGCCBack'\'sTrgt'\bin;'sGCCBack'\bin;'
-    call EnvAddFront fRM, 'PATH',               sGCCBack'\lib\gcc-lib\'sTrgt'\'sVer
     /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\book;'
     call EnvAddFront fRM, 'BOOKSHELF',          sGCCBack'\book;'
     call EnvAddFront fRM, 'HELP',               sGCCBack'\help;' */

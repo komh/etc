@@ -4,24 +4,24 @@ if not "x%KO_BLD_ENV%" == "x" goto end
 
 SET KO_BLD_ENV=1
 
-SET BEGINLIBPATH=f:\apps;f:\usr\local\lib;f:\usr\lib;f:\usr\dll;f:\lang\emx\dll;f:\lang\perl5\bin;f:\lang\python27;f:\lang\qt4\bin;f:\lang\os2tk45\samples\mm\dll;f:\lang\os2tk45\som\common\dll;f:\lang\os2tk45\som\lib;f:\lang\os2tk45\dll;f:\lang\IBMCPP\DLL;f:\lang\bcos2\bin;%BEGINLIBPATH%
-SET PATH=f:\apps;f:\bin;f:\usr\local\bin;f:\usr\bin;f:\usr\sbin;f:\lang\emx\bin;f:\lang\perl5\bin;f:\lang\python27;f:\lang\os2tk45\som\common;f:\lang\os2tk45\som\bin;f:\lang\os2tk45\bin;f:\lang\IBMCPP\BIN;f:\lang\IBMCPP\HELP;f:\lang\IBMCPP\SMARTS\SCRIPTS;%PATH%
+SET BEGINLIBPATH=f:\apps;f:\usr\lib;f:\usr\dll;f:\lang\emx\dll;f:\lang\perl5\bin;f:\lang\python27;f:\lang\qt4\qt4.git\bin;g:\usr\lib;f:\lang\os2tk45\samples\mm\dll;f:\lang\os2tk45\som\common\dll;f:\lang\os2tk45\som\lib;f:\lang\os2tk45\dll;f:\lang\IBMCPP\DLL;f:\lang\bcos2\bin;%BEGINLIBPATH%
+SET PATH=f:\apps;f:\usr\bin;f:\usr\sbin;f:\lang\perl5\bin;f:\lang\python27;g:\usr\bin;f:\lang\os2tk45\som\common;f:\lang\os2tk45\som\bin;f:\lang\os2tk45\bin;f:\lang\IBMCPP\BIN;f:\lang\IBMCPP\HELP;f:\lang\IBMCPP\SMARTS\SCRIPTS;%PATH%
 SET DPATH=f:\lang\os2tk45\som\common\system;f:\lang\os2tk45\som\msg;f:\lang\os2tk45\msg;f:\lang\os2tk45\book;f:\lang\emx\book;g:\books;%DPATH%
 SET BOOKSHELF=f:\lang\emx\book;f:\lang\os2tk45\book;f:\lang\ddk\docs;g:\books;f:\usr\book;%BOOKSHELF%
 
 REM ----- OS2UNIX Environment -----
 SET HOME=f:/home/komh
 SET USER=komh
-SET EDITOR=f:/apps/q.exe
-SET UNIXROOT=f:
-SET INFOPATH=.;f:/usr/local/info;f:/usr/local/share/info;f:/usr/info;f:/usr/share/info;f:/lang/emx/info;F:/apps/octave/doc;
+SET EDITOR=f:\apps\q.exe
+SET UNIXROOT=u:
+SET INFOPATH=.;f:/usr/local/info;f:/usr/local/share/info;f:/usr/info;f:/usr/share/info;g:/usr/info;g:/usr/share/info;f:/lang/emx/info;F:/apps/octave/doc
 SET TERMINFO=f:/usr/local/share/terminfo
-SET GNULOCALEDIR=f:/usr/local/share/locale;f:/usr/share/locale
+SET GNULOCALEDIR=f:/usr/local/share/locale;f:/usr/share/locale;g:/usr/share/locale
 rem SET LANGUAGE=ko
 SET CONFIG_SITE=f:/usr/local/etc/config.site
 
 REM ----- settings for pkg-config -----
-SET PKG_CONFIG_PATH=f:/usr/local/lib/pkgconfig;f:/usr/local/share/pkgconfig;f:/usr/lib/pkgconfig;f:/usr/share/pkgconfig
+SET PKG_CONFIG_PATH=f:/usr/local/lib/pkgconfig;f:/usr/local/share/pkgconfig;f:/usr/lib/pkgconfig;f:/usr/share/pkgconfig;g:/usr/lib/pkgconfig;g:/usr/share/pkgconfig
 rem SET PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
 rem SET PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
 
@@ -31,18 +31,18 @@ SET OPENSSL_CONF=f:\usr\ssl\openssl.cnf
 REM ----- settings for EMX -----
 SET EMX=f:/lang/emx
 SET EMXOPT=-c -h2048
-SET C_INCLUDE_PATH=.;f:/usr/local/include;f:/usr/include;f:/lang/emx/include;f:/lang/os2tk45/speech/h;f:/lang/os2tk45/som/include;f:/lang/os2tk45/inc;f:/lang/os2tk45/h/gl;f:/lang/os2tk45/h;f:/lang/os2tk45/h/libc
-SET LIBRARY_PATH=f:/usr/local/lib;f:/usr/lib;f:/usr/dll;f:/lang/emx/lib;f:/lang/os2tk45/speech/lib;f:/lang/os2tk45/samples/mm/lib;f:/lang/os2tk45/lib;f:/lang/os2tk45/som/lib
-SET CPLUS_INCLUDE_PATH=.;f:/usr/local/include;f:/usr/include;f:/lang/emx/include/cpp-old;f:/lang/emx/include;f:/lang/os2tk45/speech/h;f:/lang/os2tk45/som/include;f:/lang/os2tk45/inc;f:/lang/os2tk45/h/gl;f:/lang/os2tk45/h;f:/lang/os2tk45/h/libc
-SET PROTODIR=f:/lang/emx/include/cpp-old/gen
-SET OBJC_INCLUDE_PATH=.;f:/usr/local/include;f:/usr/include;f:/lang/emx/include;f:/lang/os2tk45/speech/h;f:/lang/os2tk45/som/include;f:/lang/os2tk45/inc;f:/lang/os2tk45/h/gl;f:/lang/os2tk45/h;f:/lang/os2tk45/h/libc
+SET C_INCLUDE_PATH=.;f:/usr/local/include;f:/usr/include;g:/usr/include;f:/lang/os2tk45/speech/h;f:/lang/os2tk45/som/include;f:/lang/os2tk45/inc;f:/lang/os2tk45/h/gl;f:/lang/os2tk45/h;f:/lang/os2tk45/h/libc;
+SET LIBRARY_PATH=f:/usr/local/lib;f:/usr/lib;f:/usr/dll;g:/usr/lib;f:/lang/os2tk45/speech/lib;f:/lang/os2tk45/samples/mm/lib;f:/lang/os2tk45/lib;f:/lang/os2tk45/som/lib;
+SET CPLUS_INCLUDE_PATH=.;f:/usr/local/include;f:/usr/include;g:/usr/include;f:/lang/os2tk45/speech/h;f:/lang/os2tk45/som/include;f:/lang/os2tk45/inc;f:/lang/os2tk45/h/gl;f:/lang/os2tk45/h;f:/lang/os2tk45/h/libc;
+rem SET PROTODIR=f:/lang/emx/include/cpp-old/gen
+SET OBJC_INCLUDE_PATH=.;f:/usr/local/include;f:/usr/include;g:/usr/include;f:/lang/os2tk45/speech/h;f:/lang/os2tk45/som/include;f:/lang/os2tk45/inc;f:/lang/os2tk45/h/gl;f:/lang/os2tk45/h;f:/lang/os2tk45/h/libc;
 SET GCCLOAD=5
 SET GCCOPT=-pipe
 SET TERMCAP=f:/lang/emx/etc/termcap.dat
-SET TERM=ansi
+SET TERM=mono2
 rem SET INFOPATH=f:/lang/emx/info
 SET EMXBOOK=emxdev.inf+emxlib.inf+emxgnu.inf+emxbsd.inf
-SET HELPNDX=EPMKWHLP.NDX+emxbook.ndx+tcppr.ndx+CPP.NDX+CPPBRS.NDX
+SET HELPNDX=EPMKWHLP.NDX+tcppr.ndx+emxbook.ndx+CPP.NDX+CPPBRS.NDX
 
 REM ----- settings for network -----
 SET USERNAME=komh
@@ -108,13 +108,14 @@ SET SMTMP=P:\tmp
 SET SMCLASSES=wptypes.idl
 
 REM ----- settings for GIT -----
-SET GIT_FIND=f:/usr/local/bin/find.exe
+SET GIT_FIND=f:/usr/bin/find.exe
 SET GIT_SORT=f:/usr/local/bin/sort.exe
 SET EMAIL=komh@chollian.net
 rem SET GITPERLLIB=f:/usr/local/lib/site_perl
 rem SET GIT_EXEC_PATH=f:/usr/local/libexec/git-core
 SET GIT_SSH=f:/apps/openssh/ssh.exe
 SET GIT_SHELL=f:/bin/sh.exe
+rem SET GIT_PAGER=f:/apps/hv.exe
 
 REM ----- settings for groff -----
 SET GROFF_TMAC_PATH=f:/usr/share/groff/tmac
@@ -122,8 +123,8 @@ SET GROFF_FONT_PATH=f:/usr/share/groff/font
 rem SET REFER=f:/usr/lib/groff/dict/papers/ind
 
 REM ----- settings for man -----
-SET MANPATH=f:/usr/local/man;f:/usr/local/share/man;f:/usr/man;f:/usr/share/man
-rem SET MAN_CONF=f:/usr/local/etc/man.conf
+SET MANPATH=f:/usr/local/man;f:/usr/local/share/man;f:/usr/man;f:/usr/share/man;g:/usr/man;g:/usr/share/man
+rem SET MAN_CONF=f:/usr/etc/man.conf
 rem SET MANPAGER=less
 
 REM ----- settings for Python -----
