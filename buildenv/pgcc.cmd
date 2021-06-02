@@ -10,15 +10,30 @@ rem ****************************************************************
 
 setlocal
 
-set EMX_PATH=f:\lang\emx
-set EMX_PATH2=f:/lang/emx
+set EMXDIR=f:\lang\emx
+set EMXDIR2=f:/lang/emx
 
-set PATH=%EMX_PATH2%/bin.new;%PATH%
-set C_INCLUDE_PATH=.;%EMX_PATH2%/include;f:\lang\os2tk45\speech\h;f:\lang\os2tk45\som\include;f:\lang\os2tk45\inc;f:\lang\os2tk45\h\gl;f:\lang\os2tk45\h;f:\lang\os2tk45\h\libc;%C_INCLUDE_PATH%
-set LIBRARY_PATH=%EMX_PATH2%/lib.new;f:/usr/lib;f:/usr/dll;f:/lang/os2tk45/speech/lib;f:/lang/os2tk45/samples/mm/lib;f:/lang/os2tk45/lib;f:/lang/os2tk45/som/lib;%LIBRARY_PATH%
-set CPLUS_INCLUDE_PATH=.;%EMX_PATH2%/include;f:\lang\os2tk45\speech\h;f:\lang\os2tk45\som\include;f:\lang\os2tk45\inc;f:\lang\os2tk45\h\gl;f:\lang\os2tk45\h;f:\lang\os2tk45\h\libc;%CPLUS_INCLUDE_PATH%
-set OLD_BEGINLIBPATH=%BEGINLIBPATH%
-set BEGINLIBPATH=%EMX_PATH2%/dll.new;%EMX_PATH2%/dll;%BEGINLIBPATH%
+SET OLDB=%BEGINLIBPATH%
+SET BEGINLIBPATH=%EMXDIR%\dll;%BEGINLIBPATH%
+
+SET PATH=%EMXDIR%\bin.new;%PATH%
+SET DPATH=%EMXDIR%\book;%DPATH%
+
+SET HELP=%EMXDIR%\HELP;%HELP%
+SET BOOKSHELF=%EMXDIR%\BOOK;%BOOKSHELF%
+
+SET C_INCLUDE_PATH=%EMXDIR2%/include;%C_INCLUDE_PATH%
+SET LIBRARY_PATH=%EMXDIR2%/lib;%LIBRARY_PATH%
+SET CPLUS_INCLUDE_PATH=%EMXDIR2%/include;%EMXDIR2%/include/cpp-old;%CPLUS_INCLUDE_PATH%
+SET PROTODIR=%EMXDIR2%/include/cpp-old/gen;%PROTODIR%
+SET OBJC_INCLUDE_PATH=%EMXDIR2%/include;%OBJC_INCLUDE_PATH%
+SET GCCLOAD=5
+SET GCCOPT=-pipe
+SET TERM=ansi
+SET TERMCAP=%EMXDIR2%/etc/termcap.dat
+SET INFOPATH=%EMXDIR2%/info;%INFOPATH%
+SET EMXBOOK=emxdev.inf+emxlib.inf+emxgnu.inf+emxbsd.inf
+SET HELPNDX=EPMKWHLP.NDX+emxbook.ndx+tcppr.ndx+CPP.NDX+CPPBRS.NDX
 
 echo.
 echo ****************************************************************
@@ -27,7 +42,7 @@ echo ****************************************************************
 
 %COMSPEC%
 
-set BEGINLIBPATH=%OLD_BEGINLIBPATH%
+set BEGINLIBPATH=%OLDB%
 
 endlocal
 
