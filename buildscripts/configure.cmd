@@ -1,6 +1,14 @@
 extproc sh
 
-n=configure
-test -f "./$n." || { echo "\`./$n' not found !!!"; exit 1; }
+d=$(dirname "$0" | tr '\\' /)
 
-"./$n" --disable-shared --enable-static "$@" 2>&1 | tee "$n.log"
+n=configure
+test -f "$d/$n." || { echo "\`$d/$n' not found !!!"; exit 1; }
+
+# convert backslashes of PATH to slashes
+export PATH=$(expr "$PATH" | tr '\\' /)
+
+export ac_executable_extensions=".exe"
+
+opts=""
+"$d/$n" $opts "$@" 2>&1 | tee "$n.log"
