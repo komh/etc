@@ -155,7 +155,7 @@ do
         /* create binary distribution */
 
         if fUseCMake then
-            'cmake' sCMakeOpts '-DBUILD_SHARED_LIBS=' || sCMakeBuildSharedLibs;
+            'cmake .' sCMakeOpts '-DBUILD_SHARED_LIBS=' || sCMakeBuildSharedLibs;
         else
             'call configure.cmd' sConfigureOpts;
 
@@ -286,7 +286,7 @@ if fIncludeSource then
     'move' sPackageSrcZip sDestDir;
 
 /* copy additional files to a dest dir */
-'copy donation.txt' sDestDir;
+'if exist donation.txt copy donation.txt' sDestDir;
 if stream(sDiffName, 'c', 'query size') > 0 then
     'move' sDiffName sDestDir;
 'if exist' sDiffName 'del' sDiffName;
