@@ -1,0 +1,19 @@
+@echo off
+
+set GCCENVCMD=%1
+
+if "%GCCENVCMD%" == "" set GCCENVCMD=gccr
+
+call %GCCENVCMD%.cmd
+
+set QTDIR=f:\qt6
+set QTDIR2=f:/qt6
+
+set PATH=%QTDIR%\bin;%PATH%
+set BEGINLIBPATH=%QTDIR%\lib;%BEGINLIBPATH%
+set CPLUS_INCLUDE_PATH=.;%CPLUS_INCLUDE_PATH%
+set PKG_CONFIG_PATH=%QTDIR2%/lib/pkgconfig;%PKG_CONFIG_PATH%
+
+set GCCENVCMD=
+set QTDIR=
+set QTDIR2=

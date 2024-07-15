@@ -65,7 +65,7 @@ end
 /*
  * Do work.
  */
-call GCC322plus sPath, 'gcc1110', 0, sLinker;
+call GCC322plus sPath, 'gcc920', 0, sLinker;
 exit 0;
 
 
@@ -110,7 +110,7 @@ GCC322plus: procedure
     sVer        = chMajor'.'chMinor'.'chRel
     sVerShrt    = chMajor||chMinor||chRel;
     sTrgt       = 'i386-pc-os2-emx'
-    chNewMajor  = left(right(sToolId, 4), 2);
+    chNewMajor  = left(substr(sToolId, 4), length(sToolId) - 5);
     chNewMinor  = left(right(sToolId, 2), 1);
     chNewRel    = right(sToolId, 1);
     sNewVer     = chNewMajor'.'chNewMinor'.'chNewRel;
@@ -125,29 +125,35 @@ GCC322plus: procedure
     call EnvSet      fRM, 'BUILD_PLATFORM', 'OS2'
 
     /*call EnvAddFront fRM, 'BEGINLIBPATH',       sGCCBack'\lib;'*/
-    call EnvAddFront fRM, 'BEGINLIBPATH',       sGCCBack'\'sNewDir'\lib;'
+    /*call EnvAddFront fRM, 'BEGINLIBPATH',       sGCCBack'\'sNewDir'\lib;'*/
     /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\lib;'*/
-    call EnvAddFront fRM, 'DPATH',              sGCCBack'\'sNewDir'\lib;'
+    /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\'sNewDir'\lib;'*/
     /*call EnvAddFront fRM, 'HELP',               sGCCBack'\lib;'*/
     /*call EnvAddFront fRM, 'PATH',               sGCCBack'\bin;'*/
-    call EnvAddFront fRM, 'PATH',               sGCCBack'\'sNewDir'\bin;'
-    call EnvAddFront fRM, 'PATH',               sGCCBack'\'sNewDir'\libexec\gcc\'sNewTrgt'\'sNewVer';'
+    /*call EnvAddFront fRM, 'PATH',               sGCCBack'\'sNewDir'\bin;'*/
+    /*call EnvAddFront fRM, 'PATH',               sGCCBack'\libexec\gcc\'sNewTrgt'\'chNewMajor';'*/
+    /*call EnvAddFront fRM, 'PATH',               sGCCBack'\'sNewDir'\libexec\gcc\'sNewTrgt'\'sNewVer';'*/
     /*call EnvAddFront fRM, 'DPATH',              sGCCBack'\book;'*/
     /*call EnvAddFront fRM, 'BOOKSHELF',          sGCCBack'\book;'*/
     /*call EnvAddFront fRM, 'HELP',               sGCCBack'\help;'*/
     /*call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/include;'*/
-    call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/'sNewDir'/include;'
-    call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/'sNewDir'/lib/gcc/'sNewTrgt'/'sNewVer'/include;'
+    /*call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/'sNewDir'/include;'*/
+    /*call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/lib/gcc/'sNewTrgt'/'chNewMajor'/include;'*/
+    /*call EnvAddFront fRM, 'C_INCLUDE_PATH',     sGCCForw'/'sNewDir'/lib/gcc/'sNewTrgt'/'sNewVer'/include;'*/
     /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/include;'*/
-    call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include;'
-    call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer'/backward;'
-    call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer'/'sNewTrgt';'
-    call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer';'
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include;'*/
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/include/c++/'chNewMajor'/backward;'*/
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer'/backward;'*/
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/include/c++/'chNewMajor'/'sNewTrgt';'*/
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer'/'sNewTrgt';'*/
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/include/c++/'chNewMajor';'*/
+    /*call EnvAddFront fRM, 'CPLUS_INCLUDE_PATH', sGCCForw'/'sNewDir'/include/c++/'sNewVer';'*/
     /*call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/lib;'*/
-    call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/'sNewDir'/lib;'
-    call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/'sNewDir'/lib/gcc/'sNewTrgt'/'sNewVer';'
+    /*call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/'sNewDir'/lib;'*/
+    /*call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/lib/gcc/'sNewTrgt'/'chNewMajor';'*/
+    /*call EnvAddFront fRM, 'LIBRARY_PATH',       sGCCForw'/'sNewDir'/lib/gcc/'sNewTrgt'/'sNewVer';'*/
     /*call EnvAddFront fRM, 'INFOPATH',           sGCCForw'/info;'*/
-    call EnvAddFront fRM, 'INFOPATH',           sGCCForw'/'sNewDir'/info;'
+    /*call EnvAddFront fRM, 'INFOPATH',           sGCCForw'/'sNewDir'/info;'*/
     /* is this used? */
     /*call EnvSet      fRM, 'PROTODIR',           sGCCForw'/include/c++/gen'*/
 

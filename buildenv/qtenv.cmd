@@ -3,7 +3,7 @@
 set GCCENVCMD=%1
 set QTDIR=%2
 
-if "%GCCENVCMD%" == "" set GCCENVCMD=gcc4
+if "%GCCENVCMD%" == "" set GCCENVCMD=gcc9
 if "%QTDIR%" == "" set QTDIR=f:\lang\qt4
 
 call %GCCENVCMD%.cmd
