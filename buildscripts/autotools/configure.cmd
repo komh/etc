@@ -1,10 +1,16 @@
 extproc sh
 
+d=$(dirname "$0" | tr '\\' /)
+
+n=configure
+test -f "$d/$n." || { echo "\`$d/$n' not found !!!"; exit 1; }
+
 # convert backslashes of PATH to slashes
 export PATH=$(expr "$PATH" | tr '\\' /)
 
 export ac_executable_extensions=".exe"
 
-n=configure
-test -f "./$n." || { echo "\`./$n' not found !!!"; exit 1; }
-"./$n" "$@" 2>&1 | tee "$n.log"
+export LDFLAGS=-Zhigh-mem
+
+opts=""
+"$d/$n" $opts "$@" 2>&1 | tee "$n.log"
