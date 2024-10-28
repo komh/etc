@@ -1,6 +1,6 @@
 #
 #   Configuration parts of GNU Make/GCC build system.
-#   Copyright (C) 2014 by KO Myung-Hun <komh@chollian.net>
+#   Copyright (C) 2024 by KO Myung-Hun <komh78@gmail.com>
 #
 #   This file is part of GNU Make/GCC build system.
 #
@@ -89,6 +89,7 @@ BLDLEVEL_VERSION :=
 #   program_DEF         for .def file
 #   program_EXTRADEPS   for extra dependencies
 #   program_DESC        for a BLDLEVEL description string
+#   program_OUTDIR      for the place where to store .EXE
 
 BIN_PROGRAMS :=
 
@@ -132,6 +133,7 @@ BIN_PROGRAMS :=
 #   library_EXTRADEPS   for extra dependencies
 #   library_NO_IMPLIB   if set, implib is not generated.
 #   library_DESC        for a BLDLEVEL description string
+#   library_OUTDIR      for the place where to store .DLL and so on
 #
 # the above is only for DLL
 

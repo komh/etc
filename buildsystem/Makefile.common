@@ -1,6 +1,6 @@
 #
 #   Common parts of GNU Make/GCC build system
-#   Copyright (C) 2014 by KO Myung-Hun <komh@chollian.net>
+#   Copyright (C) 2024 by KO Myung-Hun <komh78@gmail.com>
 #
 #   This file is part of GNU Make/GCC build system.
 #
@@ -55,6 +55,9 @@ ifeq ($(strip $(RC)),)
 RC := rc
 endif
 
+# set mkdir -p
+MKDIR_P := mkdir -p
+
 # BLDLEVEL string
 BLDLEVEL_DATE := $(shell LANG=C date +"\" %F %T %^Z  \"")
 BLDLEVEL_HOST = $(shell echo $(HOSTNAME) | cut -b -11)
@@ -87,7 +90,14 @@ $(1)_RES := $$($(1)_RCSRC:.rc=.res)
 
 $(1)_DESC := $(if $($(1)_DESC),$($(1)_DESC),$(1))
 
-$(1)$(EXE_EXT) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
+$(1)_OUTDIR := $(if $($(1)_OUTDIR),$($(1)_OUTDIR),.)
+
+# create a output directory
+ifneq ($$($(1)_OUTDIR),.)
+$$(shell $(MKDIR_P) $$($(1)_OUTDIR))
+endif
+
+$$($(1)_OUTDIR)/$(1)$(EXE_EXT) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
 	$(QUIET)$(LD) $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
 ifneq ($$($(1)_RES),)
@@ -107,7 +117,7 @@ endif
 	$(if $(QUIET), @echo [BLDLEVEL] $$@)
 	$(QUIET)echo $(BLDLEVEL)$$($(1)_DESC) >> $$@
 
-$(1) : $(1)$(EXE_EXT)
+$(1) : $$($(1)_OUTDIR)/$(1)$(EXE_EXT)
 endef
 
 # template to create a static library
@@ -120,15 +130,22 @@ $(1)_OBJS := $$($(1)_DEPS:.d=$(OBJ_EXT))
 $$($(1)_OBJS) : CFLAGS += $($(1)_CFLAGS)
 $$($(1)_OBJS) : CXXFLAGS += $($(1)_CXXFLAGS)
 
-$(1)$(LIB_EXT) : $$($(1)_OBJS) $$($(1)_EXTRADEPS)
+$(1)_OUTDIR := $(if $($(1)_OUTDIR),$($(1)_OUTDIR),.)
+
+# create a output directory
+ifneq ($$($(1)_OUTDIR),.)
+$$(shell $(MKDIR_P) $$($(1)_OUTDIR))
+endif
+
+$$($(1)_OUTDIR)/$(1)$(LIB_EXT) : $$($(1)_OBJS) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [AR] $$@)
 	$(QUIET)$(AR) cr$(if $(QUIET),,v) $$@ $$($(1)_OBJS)
 
-$(1)$(OMF_LIB_EXT) : $(1)$(LIB_EXT)
+$$($(1)_OUTDIR)/$(1)$(OMF_LIB_EXT) : $$($(1)_OUTDIR)/$(1)$(LIB_EXT)
 	$(if $(QUIET), @echo [EMXOMF] $$@)
-	$(QUIET)emxomf -o $$@ $(1)$(LIB_EXT)
+	$(QUIET)emxomf -o $$@ $$($(1)_OUTDIR)/$(1)$(LIB_EXT)
 
-$(1) : $(1)$(LIB_EXT) $(1)$(OMF_LIB_EXT)
+$(1) : $$($(1)_OUTDIR)/$(1)$(LIB_EXT) $$($(1)_OUTDIR)/$(1)$(OMF_LIB_EXT)
 endef
 
 # template to build DLL
@@ -143,7 +160,9 @@ $$($(1)_OBJS) : CXXFLAGS += $($(1)_CXXFLAGS)
 
 $(1)_RES := $($(1)_RCSRC:.rc=.res)
 
-$(1)_DEF := $(if $($(1)_DEF),$($(1)_DEF),$(1)_auto.def)
+$(1)_OUTDIR := $(if $($(1)_OUTDIR),$($(1)_OUTDIR),.)
+
+$(1)_DEF := $(if $($(1)_DEF),$($(1)_DEF),$($(1)_OUTDIR)/$(1)_auto.def)
 
 $(1)_DLL_TARGET := $(if $($(1)_DLLNAME),$($(1)_DLLNAME),$(1))$(DLL_EXT)
 
@@ -151,17 +170,22 @@ $(1)_DLL_LIBNAME := $$(notdir $$(basename $$($(1)_DLL_TARGET)))
 
 $(1)_DESC := $(if $($(1)_DESC),$($(1)_DESC),$(1))
 
+# create a output directory
+ifneq ($$($(1)_OUTDIR),.)
+$$(shell $(MKDIR_P) $$($(1)_OUTDIR))
+endif
+
 ifneq ($$(wildcard $(1)_auto.def),)
 ifneq ($$(shell sed -n -e "1s/^LIBRARY[ \t]\+\([^ \t]\+\).*$$$$/\1/p" $$($(1)_DEF)),$$($(1)_DLL_LIBNAME))
-$$(shell touch $(1)_auto.libname)
+$$(shell touch $$($(1)_OUTDIR)/$(1)_auto.libname)
 endif
 endif
 
-$(1)_auto.libname :
+$$($(1)_OUTDIR)/$(1)_auto.libname :
 	$(if $(QUIET), @echo [TOUCH] $$@)
 	$(QUIET)touch $$@
 
-$(1)_auto.def : $$($(1)_OBJS) $(1)_auto.libname
+$$($(1)_OUTDIR)/$(1)_auto.def : $$($(1)_OBJS) $$($(1)_OUTDIR)/$(1)_auto.libname
 	$(if $(QUIET), @echo [GEN] $$@)
 	$(QUIET)echo LIBRARY $$($(1)_DLL_LIBNAME) INITINSTANCE TERMINSTANCE > $$@
 	$(QUIET)echo DATA MULTIPLE NONSHARED >> $$@
@@ -170,7 +194,7 @@ ifeq ($(strip $$($(1)_NO_EXPORT)),)
 	$(QUIET)emxexp $$($(1)_OBJS) | sed /_DLL_InitTerm/d >> $$@
 endif
 
-$$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
+$$($(1)_OUTDIR)/$$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
 	$(QUIET)$(LD) -Zdll $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
 ifneq ($$($(1)_RES),)
@@ -190,19 +214,19 @@ endif
 	$(if $(QUIET), @echo [BLDLEVEL] $$@)
 	$(QUIET)echo $(BLDLEVEL)$$($(1)_DESC) >> $$@
 
-$(1)_dll$(LIB_EXT) : $$($(1)_DLL_TARGET)
+$$($(1)_OUTDIR)/$(1)_dll$(LIB_EXT) : $$($(1)_OUTDIR)/$$($(1)_DLL_TARGET)
 ifeq ($$($(1)_NO_IMPLIB),)
 	$(if $(QUIET), @echo [IMPLIB] $$@)
-	$(QUIET)emximp -o $$@ $$($(1)_DLL_TARGET)
+	$(QUIET)emximp -o $$@ $$($(1)_OUTDIR)/$$($(1)_DLL_TARGET)
 endif
 
-$(1)_dll$(OMF_LIB_EXT) : $$($(1)_DLL_TARGET)
+$$($(1)_OUTDIR)/$(1)_dll$(OMF_LIB_EXT) : $$($(1)_OUTDIR)/$$($(1)_DLL_TARGET)
 ifeq ($$($(1)_NO_IMPLIB),)
 	$(if $(QUIET), @echo [IMPLIB] $$@)
-	$(QUIET)emximp -o $$@ $$($(1)_DLL_TARGET)
+	$(QUIET)emximp -o $$@ $$($(1)_OUTDIR)/$$($(1)_DLL_TARGET)
 endif
 
-$(1) : $(1)_dll$(LIB_EXT) $(1)_dll$(OMF_LIB_EXT)
+$(1) : $$($(1)_OUTDIR)/$(1)_dll$(LIB_EXT) $$($(1)_OUTDIR)/$(1)_dll$(OMF_LIB_EXT)
 endef
 
 %.d : %.c
@@ -252,18 +276,18 @@ clean : $(SUBDIRS)
 	rm -f $(foreach prog,$(BIN_PROGRAMS),$($(prog)_DEPS))
 	rm -f $(foreach prog,$(BIN_PROGRAMS),$($(prog)_OBJS))
 	rm -f $(foreach prog,$(BIN_PROGRAMS),$($(prog)_RES))
-	rm -f $(foreach prog,$(BIN_PROGRAMS),$(addsuffix $(EXE_EXT),$(prog)))
+	rm -f $(foreach prog,$(BIN_PROGRAMS),$(addsuffix $(EXE_EXT),$($(prog)_OUTDIR)/$(prog)))
 	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_DEPS:.d=.bak))
 	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_DEPS))
 	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_OBJS))
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix $(LIB_EXT),$(lib)))
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix $(OMF_LIB_EXT),$(lib)))
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix $(LIB_EXT),$($(lib)_OUTDIR)/$(lib)))
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix $(OMF_LIB_EXT),$($(lib)_OUTDIR)/$(lib)))
 	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_RES))
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$(lib)_auto.def)
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$(lib)_auto.libname)
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix _dll$(LIB_EXT),$(lib)))
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix _dll$(OMF_LIB_EXT),$(lib)))
-	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_DLL_TARGET))
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_OUTDIR)/$(lib)_auto.def)
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_OUTDIR)/$(lib)_auto.libname)
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix _dll$(LIB_EXT),$($(lib)_OUTDIR)/$(lib)))
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$(addsuffix _dll$(OMF_LIB_EXT),$($(lib)_OUTDIR)/$(lib)))
+	rm -f $(foreach lib,$(BIN_LIBRARIES),$($(lib)_OUTDIR)/$($(lib)_DLL_TARGET))
 	rm -f $(CLEAN-FILES)
 
 $(SUBDIRS) :
