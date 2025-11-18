@@ -1,6 +1,6 @@
 #
 #   Configuration parts of GNU Make/GCC build system.
-#   Copyright (C) 2024 by KO Myung-Hun <komh78@gmail.com>
+#   Copyright (C) 2014-2025 by KO Myung-Hun <komh78@gmail.com>
 #
 #   This file is part of GNU Make/GCC build system.
 #
@@ -27,6 +27,9 @@ LDFLAGS :=
 
 # specify dependent libraries such as -l option for all the programs
 LDLIBS :=
+
+# specify dependent library files listed as dependencies for all the programs
+LIBS :=
 
 ifdef RELEASE
 # specify flags for release mode
@@ -82,8 +85,9 @@ BLDLEVEL_VERSION :=
 #
 #   program_CFLAGS      for gcc compiler flags
 #   program_CXXFLAGS    for g++ compiler flags
-#   program_LDFLAGS     for linker flags
-#   program_LDLIBS      for dependent libraries
+#   program_LDFLAGS     for linker flags such as -L option
+#   program_LDLIBS      for dependent libraries such as -l option
+#   program_LIBS        for dependent library files listed as dependencies
 #   program_RCSRC       for rc source
 #   program_RCFLAGS     for rc flags
 #   program_DEF         for .def file
@@ -124,8 +128,9 @@ BIN_PROGRAMS :=
 # the above is common for LIB and DLL
 #
 #   library_DLLNAME     for customized DLL name without an extension
-#   library_LDFLAGS     for linker flags
-#   library_LDLIBS      for dependent libraries
+#   library_LDFLAGS     for linker flags such as -L option
+#   library_LDLIBS      for dependent libraries such as -l option
+#   library_LIBS        for dependent library files listed as dependencies
 #   library_RCSRC       for rc source
 #   library_RCFLAGS     for rc flags
 #   library_DEF         for .def file, if not set all the symbols are exported

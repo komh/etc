@@ -97,9 +97,9 @@ ifneq ($$($(1)_OUTDIR),.)
 $$(shell $(MKDIR_P) $$($(1)_OUTDIR))
 endif
 
-$$($(1)_OUTDIR)/$(1)$(EXE_EXT) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
+$$($(1)_OUTDIR)/$(1)$(EXE_EXT) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $(LIBS) $$($(1)_LIBS) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
-	$(QUIET)$(LD) $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
+	$(QUIET)$(LD) $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LIBS) $$($(1)_LIBS) $(LDLIBS) $$($(1)_LDLIBS)
 ifneq ($$($(1)_RES),)
 ifeq ($(strip $(NO_COMPRESS_RES)),)
 	$(if $(QUIET), @echo [BIND] $$($(1)_RES) to $$@)
@@ -185,18 +185,18 @@ $$($(1)_OUTDIR)/$(1)_auto.libname :
 	$(if $(QUIET), @echo [TOUCH] $$@)
 	$(QUIET)touch $$@
 
-$$($(1)_OUTDIR)/$(1)_auto.def : $$($(1)_OBJS) $$($(1)_OUTDIR)/$(1)_auto.libname
+$$($(1)_OUTDIR)/$(1)_auto.def : $$($(1)_OBJS) $(LIBS) $$($(1)_LIBS) $$($(1)_OUTDIR)/$(1)_auto.libname
 	$(if $(QUIET), @echo [GEN] $$@)
 	$(QUIET)echo LIBRARY $$($(1)_DLL_LIBNAME) INITINSTANCE TERMINSTANCE > $$@
 	$(QUIET)echo DATA MULTIPLE NONSHARED >> $$@
 ifeq ($(strip $$($(1)_NO_EXPORT)),)
 	$(QUIET)echo EXPORTS >> $$@
-	$(QUIET)emxexp $$($(1)_OBJS) | sed /_DLL_InitTerm/d >> $$@
+	$(QUIET)emxexp $$($(1)_OBJS) $(LIBS) $$($(1)_LIBS) | sed /_DLL_InitTerm/d >> $$@
 endif
 
-$$($(1)_OUTDIR)/$$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $$($(1)_EXTRADEPS)
+$$($(1)_OUTDIR)/$$($(1)_DLL_TARGET) : $$($(1)_OBJS) $$($(1)_RES) $$($(1)_DEF) $(LIBS) $$($(1)_LIBS) $$($(1)_EXTRADEPS)
 	$(if $(QUIET), @echo [LD] $$@)
-	$(QUIET)$(LD) -Zdll $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LDLIBS) $$($(1)_LDLIBS)
+	$(QUIET)$(LD) -Zdll $(LDFLAGS) $$($(1)_LDFLAGS) -o $$@ $$($(1)_OBJS) $$($(1)_DEF) $(LIBS) $$($(1)_LIBS) $(LDLIBS) $$($(1)_LDLIBS)
 ifneq ($$($(1)_RES),)
 ifeq ($(strip $(NO_COMPRESS_RES)),)
 	$(if $(QUIET), @echo [BIND] $$($(1)_RES) to $$@)
