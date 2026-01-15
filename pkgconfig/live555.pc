@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/lib/live
+libdir=${prefix}/lib/live
+
+Name: live555
+Description: C++ multimedia streaming libraries
+Version: 2012.10.16
+Cflags: -I${includedir}/liveMedia/include -I${includedir}/groupsock/include -I${includedir}/BasicUsageEnvironment/include -I${includedir}/UsageEnvironment/include
+Libs: -L${libdir}/liveMedia -lliveMedia -L${libdir}/groupsock -lgroupsock -L${libdir}/BasicUsageEnvironment -lBasicUsageEnvironment -L${libdir}/UsageEnvironment -lUsageEnvironment
