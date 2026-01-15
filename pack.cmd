@@ -14,40 +14,58 @@ call setlocal;
 /***** start of configuration block *****/
 /****************************************/
 
-/* specify revision */
+/* specify revision. For example, '-r2' for 2nd release */
 sRev = '';
 
 /* specify postfix. For example, '-klibc' for kLIBC */
 sPostFix = '';
+
+/* specify a build directory. */
+sBuildDir = 'build';
 
 /* set fRebuild to 1 if a package should be rebuild after clean,
  * otherwise set to 0
  */
 fRebuild = 1;
 
+BUILDSYS.make  = 0
+BUILDSYS.cmake = 1
+BUILDSYS.meson = 2
+
     /*****************************/
     /***** when fRebuild = 1 *****/
     /*****************************/
 
-    /* set fUseCmake to 1 if building with CMake */
-    fUseCMake = 0;
+    /* set iBuildSys to 0 for Make, 1 for CMake, 2 for meson */
+    iBuildSys = BUILDSYS.make;
 
-        /******************************/
-        /***** when fUseCMake = 0 *****/
-        /******************************/
+        /*******************************/
+        /***** when iBuildSys = 0 *****/
+        /*******************************/
 
         /* specify options passed to configure.cmd */
-        sConfigureOpts = '--prefix=/usr --enable-shared --enable-static';
+        sConfigureOpts = '--prefix=/@unixroot/usr --enable-shared --enable-static';
 
-        /******************************/
-        /***** when fUseCMake = 1 *****/
-        /******************************/
+        /*******************************/
+        /***** when iBuildSys = 1 *****/
+        /*******************************/
 
         /* specify options passed to cmake */
-        sCMakeOpts = '-DCMAKE_INSTALL_PREFIX=/usr';
+        sCMakeOpts = '-DCMAKE_INSTALL_PREFIX=/@unixroot/usr';
 
-        /* set fCMakeSharedLibs to 1 if shared libs are needed */
-        fCMakeBuildSharedLibs = 1;
+        /* a number of the options to build libs */
+        CMakeBuildLibsOpts.0 = 2;
+
+        /* options to build the first type of libs */
+        CMakeBuildLibsOpts.1 = '-DBUILD_SHARED_LIBS=off';
+
+        /* options to build the second type of libs */
+        CMakeBuildLibsOpts.2 = '-DBUILD_SHARED_LIBS=on';
+
+        /*******************************/
+        /***** when iBuildSys = 2 *****/
+        /*******************************/
+        sMesonOpts = '--prefix=/@unixroot/usr --default-library=both';
 
     /* set fMakeClean to 1 if using make for clean,
      * or set to 0 if doing clean manually
@@ -128,15 +146,47 @@ sPackage = sPackageBase || '-' || sVer;
 sPackageZip = sPackage || '.zip';
 sPackageSrcZip = sPackage || sRev || sPostFix || '-src.zip';
 sDestDir = '\' || sPackage;
+sDestDirS = translate( sDestDir, '/', '\');
 
-/* CMake flag to determine to build shared libs */
-sCMakeBuildSharedLibs = 'off';
+/* get a build directory to rebuid */
+sRebuildDir = 'rebuild-' || sBuildDir;
+
+/* Make commands */
+if iBuildSys = BUILDSYS.meson then
+do
+    Make.sClean = 'call ninja.cmd clean';
+    Make.sDistClean = 'nop';
+    Make.sBuild = 'call ninja.cmd';
+    Make.sDist = 'nop';
+    Make.sInstall = 'meson install --destdir=' || sDestDirS;
+end
+else if iBuildSys = BUILDSYS.cmake then
+do
+    Make.sClean = 'call ninja.cmd clean';
+    Make.sDistClean = 'nop';
+    Make.sBuild = 'call ninja.cmd';
+    Make.sDist = 'nop';
+    Make.sInstall = 'set DESTDIR=' || sDestDirS || '&',
+                    'call ninja.cmd install';
+end
+else
+do
+    Make.sClean = 'call gmake.cmd clean'
+    Make.sDistClean = 'call gmake.cmd distclean';
+    Make.sBuild = 'call gmake.cmd';
+    Make.sDist = 'call gmake.cmd';
+    Make.sInstall = 'call gmake.cmd install DESTDIR=' || sDestDirS;
+end
+
+/* loop counter */
+iLoop = 0;
 
 CMakeBuildLibs:
 
+iLoop = iLoop + 1;
 if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
 do
-    if \fUseCMake | sCMakeBuildSharedLibs = 'off' then
+    if iBuildSys = BUILDSYS.make then
     do
         /* get a temporary directory name for packaging */
         sDirPackBase = sDir || '.pack';
@@ -149,46 +199,68 @@ do
         'xcopy /s/e/v/h/t/r' sDir sDirPack || '\';
         'cd' sDirPack;
     end
+    else if iLoop = 1 then
+        'cd' sDir;
 
     if fRebuild then
     do
         /* create binary distribution */
+        select
+            when iBuildSys = BUILDSYS.make then
+                'call configure.cmd' sConfigureOpts;
 
-        if fUseCMake then
-            'cmake .' sCMakeOpts '-DBUILD_SHARED_LIBS=' || sCMakeBuildSharedLibs;
-        else
-            'call configure.cmd' sConfigureOpts;
+            when iBuildSys = BUILDSYS.cmake then
+            do
+                'rm -rf' sRebuildDir;
+                'call cmkconf.cmd' sRebuildDir,
+                    sCMakeOpts CMakeBuildLibsOpts.iLoop;
+            end
+
+            when iBuildSys = BUILDSYS.meson then
+            do
+                'rm -rf' sRebuildDir;
+                'call msetup.cmd' sRebuildDir sMesonOpts;
+            end
+        end
 
         /* add -s to GCCOPT to remove symbols from release binaries */
         'set GCCOPT=%GCCOPT% -s';
 
-        if fMakeClean then
+        if iBuildSys = BUILDSYS.make then
         do
-            /* clean generated files */
-            'gmake clean';
-        end
-        else
-        do
-            /* clean objects and executables manually */
-            call findRm '"*.o"',
-                        '"*.lo"',
-                        '"*.a"',
-                        '"*.dll"',
-                        '"*.la"',
-                        '"*.exe"';
+            if fMakeClean then
+            do
+                /* clean generated files */
+                'call gmake.cmd clean';
+            end
+            else
+            do
+                /* clean objects and executables manually */
+                call findRm '"*.o"',
+                            '"*.lo"',
+                            '"*.a"',
+                            '"*.dll"',
+                            '"*.la"',
+                            '"*.exe"';
+            end
         end
     end
 end
-else
+else if iLoop = 1 then
+do
     'cd' sDir;
+
+    if iBuildSys \= BUILDSYS.make then
+        'cd' sBuildDir;
+end
 
 if fInstall then
 do
     /* build */
-    'gmake'
+    Make.sBuild;
 
     /* install binaries */
-    'gmake install DESTDIR=' || translate( sDestDir, '/', '\');
+    Make.sInstall;
 end
 else
 do
@@ -196,9 +268,10 @@ do
     'md' sDestDir;
 end
 
-if fUseCMake & sCMakeBuildSharedLibs = 'off' then
+if fRebuild & iBuildSys = BUILDSYS.cmake,
+   & ( iLoop < CMakeBuildLibsOpts.0 ) then
 do
-    sCMakeBuildSharedLibs = 'on';
+    'cd ..';
 
     signal CMakeBuildLibs;
 end
@@ -216,7 +289,7 @@ do
     'if exist .git ren .git .git.sav';
 
     /* create a source archive */
-    'gmake' sDistCmds;
+    Make.sDist sDistCmds;
 
     if \fDistExtZip then
     do
@@ -240,13 +313,16 @@ do
 end
 else if fDistUseGit then
 do
+    if iBuildSys \= BUILDSYS.make then
+        'cd ..';
+
     'git archive --format=zip HEAD --prefix=' || sPackage || '/',
         '> ..\' || sPackageSrcZip;
 end
 else
 do
     /* clean all generated files */
-    'gmake distclean';
+    Make.sDistClean;
 
     /* remove additional files not covered by distclean */
     call findRm 'med.lru',
@@ -263,10 +339,21 @@ do
     'zip -rpS ..\' || sPackageSrcZip sPackage;
 end
 
+/* clean a temporary build directory up */
+if iBuildSys \= BUILDSYS.make then
+do
+    if \( fIncludeSource & \fDist & fDistUseGit ) then
+        'cd ..';
+
+    if fRebuild then
+        'rm -rf' sRebuildDir;
+end
+
 'cd ..';
 
 /* clean a temporary directory up */
-if fRebuild | (fIncludeSource & \fDist & \fDistUseGit) then
+if iBuildSys = BUILDSYS.make &,
+   ( fRebuild | ( fIncludeSource & \fDist & \fDistUseGit )) then
     'rm -rf' sDirPackBase;
 
 /* create diffs in a parent directory */
