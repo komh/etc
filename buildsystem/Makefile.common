@@ -42,7 +42,6 @@ else
 # enable symbolic debugging
 CFLAGS   += -g
 CXXFLAGS += -g
-LDFLAGS  += -g
 # ignore packing
 LXLITE   := echo ignore packing
 endif
