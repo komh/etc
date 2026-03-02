@@ -1,12 +1,12 @@
 /* git import wrapper */
 parse arg '"' sImportMsg '"' sGitIgnore
 
-sImportMsg = strip(sImportMsg)
-sGitIgnore = strip(sGitIgnore)
+sImportMsg = strip( sImportMsg )
+sGitIgnore = strip( sGitIgnore )
 
 if sImportMsg = '' then
 do
-    say 'Specify a commit message for a import'
+    say 'Usage: gitimp[.cmd] "commit-message-for-an-import" [path-to-.gitignore]'
     exit 1
 end
 
@@ -15,19 +15,19 @@ if ( sGitIgnore = '' ),
 do
     sCurDir = directory()
 
-    iPos = lastpos('-', sCurDir)
+    iPos = lastpos('-', sCurDir )
     if iPos > 0 then
     do
 /*
-        sGitIgnore = substr(sCurDir, 1, iPos - 1) || '.git\.gitignore'
-        if stream(sGitIgnore, 'c', 'query exists') = '' then
+        sGitIgnore = substr( sCurDir, 1, iPos - 1 ) || '.git\.gitignore'
+        if ( stream( sGitIgnore, 'c', 'query exists') = '') then
             sGitIgnore = 'g:\myetc\.gitignore'
 */
     end
 end
 
 if sGitIgnore \= '' then
-    'copy' sGitIgnore .
+    'type' sGitIgnore '>> .git\info\exclude'
 
 'git init .'
 'git add -A .'

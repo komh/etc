@@ -1,4 +1,4 @@
-/* gse.cmd */
+/* gitse.cmd */
 parse arg argall
 '@echo off'
 'setlocal'
@@ -7,6 +7,6 @@ parse arg argall
 'set BEGINLIBPATH=f:\lang\perl5\bin;%BEGINLIBPATH%'
 'set PERLLIB_PREFIX=/perl5/lib;f:/lang/perl5/lib'
 'set PERL_SH_DIR=f:/bin'
-'git se ' argall
+'git send-email --compose' argall
 'set BEGINLIBPATH=%OLD_BEGINLIBPATH'
 'endlocal'
