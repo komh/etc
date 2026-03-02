@@ -70,21 +70,25 @@ config: procedure
     /* Restore CWD */
     call directory sCurDir
 
-    /* CD into a build dir */
-    if directory( sBuildDir ) == '' then
+    /* if --help, skip CD */
+    if wordpos('--help', sArgs) == 0 then
     do
-        'mkdir' sBuildDir '2>nul'
+        /* CD into a build dir */
         if directory( sBuildDir ) == '' then
         do
-            say 'Cannot change a directory to 'sBuildDir'!'
+            'mkdir' sBuildDir '2>nul'
+            if directory( sBuildDir ) == '' then
+            do
+                say 'Cannot change a directory to 'sBuildDir'!'
 
-            return 1
+                return 1
+            end
         end
-    end
 
-    /* Copy the configure script file */
-    parse source . . sMe
-    'copy' sMe '1>nul 2>nul'
+        /* Copy the configure script file */
+        parse source . . sMe
+        'copy' sMe '1>nul 2>nul'
+    end
 
     /* Add --reconfigure option if a build dir is already configured */
     if isbuilddir('.') then
