@@ -2,10 +2,9 @@
 
 setlocal
 
-set VPDIR=f:\lang\vp21
-set PATH=%VPDIR%\bin.os2;%PATH%
 set OLDB=%BEGINLIBPATH%
-set BEGINLIBPATH=%VPDIR%\bin.os2;%BEGINLIBPATH%
+
+call setvpenv.cmd
 
 echo.
 echo ****************************************************************
@@ -14,11 +13,11 @@ echo ****************************************************************
 
 %COMSPEC%
 
-set BEGINLIBPATH=%OLDB%
-
-endlocal
-
 echo.
 echo ****************************************************************
 echo                 Back to original configuration
 echo ****************************************************************
+
+set BEGINLIBPATH=%OLDB%
+
+endlocal

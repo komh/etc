@@ -2,14 +2,12 @@
 
 setlocal
 
-set PATH=f:\lang\perl5\bin;%PATH%
-set OLD_BEGINLIBPATH=%BEGINLIBPATH%
-set BEGINLIBPATH=f:\lang\perl5\bin;%BEGINLIBPATH%
-set PERLLIB_PREFIX=/perl5/lib;f:/lang/perl5/lib
-set PERL_SH_DIR=f:/bin
+set OLDB=%BEGINLIBPATH%
+
+call setpl5env.cmd
 
 %COMSPEC%
 
-set BEGINLIBPATH=%OLD_BEGINLIBPATH%
+set BEGINLIBPATH=%OLDB%
 
 endlocal

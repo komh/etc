@@ -2,10 +2,9 @@
 
 setlocal
 
-set FPDIR=f:\lang\fpc
-set PATH=%FPDIR%\bin\os2;%PATH%
 set OLDB=%BEGINLIBPATH%
-set BEGINLIBPATH=%FPDIR%\dll;%BEGINLIBPATH%
+
+call setfpenv.cmd
 
 echo.
 echo ****************************************************************
@@ -14,11 +13,11 @@ echo ****************************************************************
 
 %COMSPEC%
 
-set BEGINLIBPATH=%OLDB%
-
-endlocal
-
 echo.
 echo ****************************************************************
 echo                 Back to original configuration
 echo ****************************************************************
+
+set BEGINLIBPATH=%OLDB%
+
+endlocal

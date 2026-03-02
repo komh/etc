@@ -17,9 +17,28 @@ call putEnv 'GCCOPT', strip('-pipe -s' sOptExtra );
 call putEnv 'EMXOMFLD_RC_TYPE', 'WRC';
 call putEnv 'EMXOMFLD_RC', 'wrc.exe';
 
-call putEnvFront 'C_INCLUDE_PATH', '.;f:/usr/local/include;f:/usr/include;';
-call putEnvFront 'CPLUS_INCLUDE_PATH', '.;f:/usr/local/include;f:/usr/include;';
-call putEnvFront 'LIBRARY_PATH', 'f:/usr/local/lib;f:/usr/lib;f:/usr/dll;';
+call putEnvFront 'C_INCLUDE_PATH', 'f:/usr/include;';
+call putEnvFront 'C_INCLUDE_PATH', 'f:/lang/binutils/include;';
+call putEnvFront 'C_INCLUDE_PATH', 'f:/usr/local/include;';
+/*
+call putEnvFront 'C_INCLUDE_PATH', '.;';
+*/
+
+call putEnvFront 'CPLUS_INCLUDE_PATH', 'f:/usr/include;';
+call putEnvFront 'CPLUS_INCLUDE_PATH', 'f:/lang/binutils/include;';
+call putEnvFront 'CPLUS_INCLUDE_PATH', 'f:/usr/local/include;';
+/*
+call putEnvFront 'CPLUS_INCLUDE_PATH', '.;';
+*/
+
+call putEnvFront 'LIBRARY_PATH', 'f:/usr/dll;';
+call putEnvFront 'LIBRARY_PATH', 'f:/usr/lib;';
+call putEnvFront 'LIBRARY_PATH', 'f:/lang/binutils/lib;';
+call putEnvFront 'LIBRARY_PATH', 'f:/usr/local/lib;';
+
+call putEnvFront 'PATH', 'f:\lang\binutils\bin;';
+
+'set BEGINLIBPATH=f:\lang\binutils\lib;%BEGINLIBPATH%';
 
 exit 0;
 
